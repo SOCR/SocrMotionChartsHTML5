@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">  
+<link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet"> 
+<link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
+<link href="MotionChartCss.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div class="header btn-group" data-toggle="buttons-radio">
+			<button class="btn btn-large btn-warning active">Chart</button>
+			<button class="btn btn-large btn-warning">Data</button>
+		</div>
+		<div class="content">
+			<div class="chart" id="tab0">
+				<div class="columnHolder">
+					<div class="y-axis">
+						<div class="btn-group vertical">
+							<ul class="nav nav-pills">   
+							   <li class="dropdown active" style="width:70%">  
+								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">y-axis <b class="caret bottom-up" align="right"></b></a>  
+								 <ul class="dropdown-menu bottom-up fill-width">  
+								   <li><a href="#">Twitter Bootstrap</a></li>  
+								   <li><a href="#">Google Plus API</a></li>  
+								   <li><a href="#">HTML5</a></li>  
+								   <li class="divider"></li>  
+								   <li><a href="#">Examples</a></li>  
+								 </ul>  
+							   </li> 
+							   <li class="dropdown active" style="width:30%" style="overflow:clip">  
+								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
+								 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+								   <li><a href="#">Twitter Bootstrap</a></li>
+								   <li><a href="#">Google Plus API</a></li>  
+								   <li><a href="#">HTML5</a></li>  
+								   <li class="divider"></li>  
+								   <li><a href="#">Examples</a></li>  
+								 </ul>  
+							   </li> 
+							 </ul> 
+						</div>
+					</div>
+					<div class="middleColumn">
+						<div class="svg"></div>
+						<div class="x-axis">
+							<ul class="nav nav-pills">   
+							   <li class="dropup active" style="width:70%">  
+								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">x-axis <b class="caret bottom-up" align="right"></b></a>  
+								 <ul class="dropdown-menu bottom-up fill-width">  
+								   <li><a href="#">Twitter Bootstrap</a></li>  
+								   <li><a href="#">Google Plus API</a></li>  
+								   <li><a href="#">HTML5</a></li>  
+								   <li class="divider"></li>  
+								   <li><a href="#">Examples</a></li>  
+								 </ul>  
+							   </li> 
+							   <li class="dropup active" style="width:30%">  
+								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
+								 <ul class="dropdown-menu bottom-up fill-width">  
+								   <li><a href="#">Twitter Bootstrap</a></li>  
+								   <li><a href="#">Google Plus API</a></li>  
+								   <li><a href="#">HTML5</a></li>  
+								   <li class="divider"></li>  
+								   <li><a href="#">Examples</a></li>  
+								 </ul>  
+							   </li> 
+							 </ul> 
+						</div>
+					</div>
+				<div class="timeline">
+					<div class="play"></div>
+					<div class="speed-control"></div>
+					<div class="slider"></div>
+					<div class="slide-control">
+						<div class="backward"></div>
+						<div class="forward"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<div class="table dataTable" id="tab1"></div>
+			<div class="rightColumn">
+				<div class="header mappings">Mappings</div>
+				<ul class="nav nav-pills nav-stacked">   
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">key <b class="caret bottom-up"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li> 
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">x-axis <b class="caret bottom-up" align="right"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li> 
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">y-axis <b class="caret bottom-up" align="right"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li> 
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">size <b class="caret bottom-up" align="right"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li> 
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">color <b class="caret bottom-up" align="right"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li>
+				   <li class="dropdown">  
+					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">category <b class="caret bottom-up" align="right"></b></a>  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					   <li><a href="#">HTML5</a></li>  
+					   <li class="divider"></li>  
+					   <li><a href="#">Examples</a></li>  
+					 </ul>  
+				   </li>  
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="jquery-ui-1.8.20/js/jquery-ui-1.8.20.custom.min.js"></script>
+	<script src="jquery-handsontable/jquery.handsontable.js"></script>
+	<script src="jquery-handsontable/lib/jquery.autoresize.js"></script>
+	<script src="MotionChartUI.js"></script>
+</body>
+</html>
