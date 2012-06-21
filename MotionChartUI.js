@@ -39,7 +39,7 @@
 	/* Initialise Table */
 	$('.dataTable').ready( function() {
 		var data = [
-			["", "Kia", "Nissan", "Toyota", "Honda"],
+			["Year", "Kia", "Nissan", "Toyota", "Honda"],
 			["2008", 10, 11, 12, 13],
 			["2009", 20, 11, 14, 13],
 			["2010", 30, 15, 12, 13]
@@ -54,7 +54,7 @@
 	});
 	
 	/* Initilise dropdown functionality */
-	$('li > ul > li').not('.divider').click(function (e) {
+	$('a').click(function (e) {
 		e.preventDefault();
 		$(this).parent().prev('a').html($(this).text() + ' <b class="caret bottom-up"></b>');
 	});
@@ -68,6 +68,7 @@
 				case 0:
 					$('#tab0').slideToggle();
 					$('#tab1').slideToggle();
+					update();
 					break;
 				case 1:
 					$('#tab1').slideToggle();
@@ -81,10 +82,76 @@
 	$('a.ui-slider-handle').ready( function() {
 		$('a.ui-slider-handle').tooltip({
 			title: "key percentage"
-			});
 		});
+	});
+	$('ul.key').parent().ready( function() {
+		$('ul.key').parent().tooltip({
+			title: "Key",
+			placement: "left"
+		});
+	});
+	$('ul.xAxis').parent().ready( function() {
+		$('ul.xAxis').parent().tooltip({
+			title: "x-Axis",
+			placement: "left"
+		});
+	});
+	$('ul.yAxis').parent().ready( function() {
+		$('ul.yAxis').parent().tooltip({
+			title: "y-Axis",
+			placement: "left"
+		});
+	});
+	$('ul.size').parent().ready( function() {
+		$('ul.size').parent().tooltip({
+			title: "Size",
+			placement: "left"
+		});
+	});
+	$('ul.color').parent().ready( function() {
+		$('ul.color').parent().tooltip({
+			title: "Color",
+			placement: "left"
+		});
+	});
+	$('ul.category').parent().ready( function() {
+		$('ul.category').parent().tooltip({
+			title: "Category",
+			placement: "left"
+		});
+	});
 	
+	/* Initialise Chart resizable funtionality */
+	$('.svg').ready( function() {
+		$('.svg').resizable({
+			animate: true
+		});
+	});
 	
+	function setMappings( mapping )
+	{
+		$('.keyMappings ul.dropdown-menu').each(
+			function() {
+				// Empty lists
+				$(this).empty();
+				// Add the mapping keys to all dropdowns 
+				for(var i=0; i < mapping.length ;i++)
+				{
+					$selector = $('<li><a href="#">'+mapping[i]+'</a></li>').data('mappingID', i);
+					$(this).append($selector);
+				}
+				// Bind a click event to all new elements
+				$(this).children('li').click(function (e) {
+					e.preventDefault();
+					$(this).parent().prev('a').html($(this).text() + ' <b class="caret bottom-up"></b>');
+					$(this).parent().data('ID', $(this).data('mappingID'));
+				});
+				// DEFAULT: select new dropdown keys in an incremental order
+				$('li',this).eq($('.keyMappings ul.dropdown-menu').index(this)).trigger('click');
+			});
+	}
+	//TODO: This is just a hack to show chart update
+	$('.update').click(function() {$('.svg').motionchart(); });
 	
 	
 	
