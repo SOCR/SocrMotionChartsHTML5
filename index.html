@@ -30,7 +30,7 @@
 							   </li> 
 							   <li class="dropdown active" style="width:30%" style="overflow:clip">  
 								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+								 <ul class="dropdown-menu bottom-up fill-width pull-right scale">  
 								   <li><a href="#">Twitter Bootstrap</a></li>
 								   <li><a href="#">Google Plus API</a></li>  
 								   <li><a href="#">HTML5</a></li>  
@@ -57,7 +57,7 @@
 							   </li> 
 							   <li class="dropup active" style="width:30%">  
 								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width">  
+								 <ul class="dropdown-menu bottom-up fill-width scale">  
 								   <li><a href="#">Twitter Bootstrap</a></li>  
 								   <li><a href="#">Google Plus API</a></li>  
 								   <li><a href="#">HTML5</a></li>  
@@ -82,10 +82,10 @@
 			<div class="table dataTable" id="tab1"></div>
 			<div class="rightColumn">
 				<div class="header mappings">Mappings</div>
-				<ul class="nav nav-pills nav-stacked">   
+				<ul class="nav nav-pills nav-stacked keyMappings">   
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">key <b class="caret bottom-up"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right key">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
@@ -93,7 +93,7 @@
 				   </li> 
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">x-axis <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right xAxis">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
@@ -101,7 +101,7 @@
 				   </li> 
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">y-axis <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right yAxis">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
@@ -109,7 +109,7 @@
 				   </li> 
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">size <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right size">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
@@ -117,7 +117,7 @@
 				   </li> 
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">color <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right color">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
@@ -125,21 +125,25 @@
 				   </li>
 				   <li class="dropdown">  
 					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">category <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right">  
+					 <ul class="dropdown-menu bottom-up fill-width pull-right category">  
 					   <li><a href="#">HTML5</a></li>  
 					   <li class="divider"></li>  
 					   <li><a href="#">Examples</a></li>  
 					 </ul>  
 				   </li>  
 				</ul>
+				<button class="update">Construct/Update</button>
 			</div>
 		</div>
 	</div>
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="jquery-ui-1.8.20/js/jquery-1.7.2.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="jquery-ui-1.8.20/js/jquery-ui-1.8.20.custom.min.js"></script>
 	<script src="jquery-handsontable/jquery.handsontable.js"></script>
 	<script src="jquery-handsontable/lib/jquery.autoresize.js"></script>
+	<script src="d3/d3.v2.js"></script>
 	<script src="MotionChartUI.js"></script>
+	<!--script src="MotionChartD3.js"></script-->
+	<script src="MotionChartTest.js"></script>
 </body>
 </html>
