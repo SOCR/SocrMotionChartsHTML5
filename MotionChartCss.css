@@ -1,11 +1,7 @@
 body, html {
 height : 400px;
 width : 1200px;
-}
-
-
-
-.container {
+}ntainer {
 	height:100%;
 	width: 100%;
 	text-align : center;
@@ -181,6 +177,11 @@ text {
 
 .year.label {
   font: 500 196px "Helvetica Neue";
+   opacity: 0.5;
+}
+
+.circle:hover {
+  opacity: 1.";
   fill: #ddd;
 }
 

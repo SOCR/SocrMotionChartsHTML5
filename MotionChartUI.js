@@ -32,11 +32,10 @@
 			max: 1,
 			step: 1,
 			animate: true 	
-			// slide: function() //TODO: slides when user clicks on play
-		});
-	});
-	
-	/* Initialise Table */
+			// slide: function() //2000,
+			trigger: "manual",
+			slide: function(event, ui) {}, //TODO: slides when user clicks on play
+			stop: function(event, ui) { $('a.ui-slider-handle').tooltip('show'); } */
 	$('.dataTable').ready( function() {
 		var data = [
 			["Year", "Kia", "Nissan", "Toyota", "Honda"],
@@ -72,7 +71,7 @@
 					break;
 				case 1:
 					$('#tab1').slideToggle();
-					$('#tab0').slideToggle();
+					//$('#tab0').slideToggle();
 					break;
 			}
 		}
@@ -85,8 +84,10 @@
 		});
 	});
 	$('ul.key').parent().ready( function() {
-		$('ul.key').parent().tooltip({
-			title: "Key",
+		$('ul.key')function() {return $('.slider').slider("value"); }
+		});
+	});
+	/* Initialise Mapping tooltip functionality */ "Key",
 			placement: "left"
 		});
 	});
@@ -137,23 +138,40 @@
 				// Add the mapping keys to all dropdowns 
 				for(var i=0; i < mapping.length ;i++)
 				{
+				$this = $(this);{
 					$selector = $('<li><a href="#">'+mapping[i]+'</a></li>').data('mappingID', i);
 					$(this).append($selector);
 				}
 				// Bind a click event to all new elements
-				$(this).children('li').click(function (e) {
-					e.preventDefault();
+				$(this).children('li').clicke.preventDefault();
 					$(this).parent().prev('a').html($(this).text() + ' <b class="caret bottom-up"></b>');
 					$(this).parent().data('ID', $(this).data('mappingID'));
 				});
 				// DEFAULT: select new dropdown keys in an incremental order
-				$('li',this).eq($('.keyMappings ul.dropdown-menu').index(this)).trigger('click');
+				$('li',this).eq($('.keyMappings ul.dropdown-menu'index());
+					$('.svg').motionchart("updateMappingID", $('.keyMappings ul.dropdown-menu').index($(this).parent()), $(this).index(rigger('click');
 			});
 	}
 	//TODO: This is just a hack to show chart update
 	$('.update').click(function() {$('.svg').motionchart(); });
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	EMP HACK
+	$('.update').click(function() {$('.svg').motionchart("mappingsChange");});
+	$('.play').click(
+		function()
+		{
+			$('.svg').motionchart("motion");
+			//$('a.ui-slider-handle').tooltip("show");
+		}
+	);
 	
 	
 	
