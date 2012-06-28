@@ -1733,7 +1733,59 @@
     this.getData = function () {
       return datamap.getAll();
     };
+	/**
+     * Return non-empty data as array
+     * @public
+     * @return {Array}
+     */
+    this.getNonEmptyData = function () {
+	
+	//find currently non-empty rows
+    var data = datamap.getAll(),
+        rlen = data.length,
+		clen = data[0].length,
+        nonEmptyRows,
+		nonEmptyCols;
+        for (var r = rlen - 1; r >= 0; r--) {
+            if (data[r][0] !== '') {
+			  nonEmptyRows = r;
+              break;
+            }
+        }
+        for (var c = clen - 1; c >= 0; c--) {
+            if (data[0][c] !== '') {
+			  nonEmptyCols = c;
+              break;
+            }
+        }
+	
+      return datamap.getRange({row: nonEmptyRows, col: 0},{row: 0, col: nonEmptyCols});
+    };
 
+	/**
+     * Returns the first row, used to map data to keys
+     * @public
+	 * @return {Array}
+     */
+    this.getMappings = function () {
+	
+		//find currently non-empty rows
+    var data = datamap.getAll(),
+		clen = data[0].length,
+		firstRow = [];
+        for (var c = 0; c < clen; c++) {
+            if (data[0][c] === '') {
+              break;
+            }
+			else {
+			  firstRow.push(data[0][c]);
+			 }
+			
+        }
+	
+	  return firstRow;
+    };
+	
     /**
      * Update settings
      * @public
