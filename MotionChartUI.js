@@ -7,8 +7,10 @@
 	 * ========================================================== */
 	 
 
-	/* RESIZE WINDOW */
-	$('.svg').ready( function() {
+	/* RES	 //Temp var. TODO: place in a object oriented position..
+	 var keyNames=[], playState, tableChangeFlag = false;
+	 
+	/*Set up Windowvg').ready( function() {
 		$('.columnHolder').height( $('.chart').height() - $('.timeline').height() );
 		$('.middleColumn').width( $('.columnHolder').width() - $('.y-axis').outerWidth() );
 		var newHeight = $('.middleColumn').innerHeight() - $('.x-axis').innerHeight();
@@ -16,7 +18,7 @@
 		$('.y-axis').height(newHeight);
 	});
 	
-	/* Align y-axis vertically */
+	/* Ali		gn y-axis vertically */
 	$('.vertical').ready( function() {
 		var temp = $('.vertical').height();
 		$('.vertical').height($('.vertical').width());
@@ -34,8 +36,8 @@
 			animate: true 	
 			// slide: function() //2000,
 			trigger: "manual",
-			slide: function(event, ui) {}, //TODO: slides when user clicks on play
-			stop: function(event, ui) { $('a.ui-slider-handle').tooltip('show'); } */
+			slide: function(event, ui) {}, }, //TODO: slides when user clicks on play
+			change: function(event, ui) { $('.svg').motionchart("updateCurrentIndex",ui.value} */
 	$('.dataTable').ready( function() {
 		var data = [
 			["Year", "Kia", "Nissan", "Toyota", "Honda"],
@@ -49,11 +51,13 @@
 			minSpareRows: 1,
 			minSpareCols: 1
 			});
+		$('.dataTable').handsontable("loadData", da,
+			onChange: function(data) { if(data) tableChangeFlag = true; }
+			});
 		$('.dataTable').handsontable("loadData", data);
-	});
-	
-	/* Initilise dropdown functionality */
-	$('a').click(function (e) {
+		//Initialise otion Chart with default data
+		$('.svg').motionchart();
+		tableChangeFlag = false).click(function (e) {
 		e.preventDefault();
 		$(this).parent().prev('a').html($(this).text() + ' <b class="caret bottom-up"></b>');
 	});
@@ -71,7 +75,11 @@
 					break;
 				case 1:
 					$('#tab1').slideToggle();
-					//$('#tab0').slideToggle();
+					//$if (tableChangeFlag) 
+					{	
+						$('.svg').motionchart("dataChange");		//If table was changed then re-bind data and mappings
+						tableChangeFlag = false;
+					}lideToggle();
 					break;
 			}
 		}
@@ -84,7 +92,7 @@
 		});
 	});
 	$('ul.key').parent().ready( function() {
-		$('ul.key')function() {return $('.slider').slider("value"); }
+		$('ul.key')function() {return $('keyNames[$('.slider').slider("value")]
 		});
 	});
 	/* Initialise Mapping tooltip functionality */ "Key",
@@ -127,14 +135,50 @@
 		$('.svg').resizable({
 			animate: true
 		});
+	}$('.playpause').ready( function() {
+		$('.playpause').tooltip({
+			title: "Play/Pause"
+		});
+	});
+	$('.backward-skip').ready( function() {
+		$('.backward-skip').tooltip({
+			title: "Double click to skip to beggining"
+		});
+	});
+	$('.forward-skip').ready( function() {
+		$('.forward-skip').tooltip({
+			title: "Double click to skip to endte: true
+		});
 	});
 	
 	function setMappings( mapping )
 	{
 		$('.keyMappings ul.dropdown-menu').each(
 			function() {
-				// Empty lists
-				$(this).empty();
+				// EmpminHeight: 200,
+			minWidth: 700,
+			resize: function (event, ui) {
+						$('.y-axis').height( $('.svg').height() );
+						$('.vertical').width( $('.y-axis').height() );
+						$('.vertical').offset($('.vertical').parent().offset());
+						$('.middleColumn').height( $('.svg').height() + $('.x-axis').outerHeight() );
+						$('.middleColumn').width( $('.svg').width() );
+						$('.columnHolder').height( $('.middleColumn').height() );
+						$('.columnHolder').width( $('.middleColumn').width() + $('.y-axis').outerWidth() );
+						$('.chart').width( $('.columnHolder').width() );
+						$('.table').width( $('.columnHolder').width() );
+						$('.content').height( $('.columnHolder').height() + $('.timeline').height() );
+						$('.content').width( $('.columnHolder').width() + $('.rightColumn').width() );
+						
+						$('.svg').motionchart("resize");
+			}
+		});
+	});
+	
+	function setKeyNames( keyNames )
+	{
+		this.keyNames = keyNames;
+	}
 				// Add the mapping keys to all dropdowns 
 				for(var i=0; i < mapping.length ;i++)
 				{
@@ -164,14 +208,87 @@
 	
 	
 	EMP HACK
-	$('.update').click(function() {$('.svg').motionchart("mappingsChange");});
-	$('.play').click(
+	$('.update').click(funSet axis dropdowns
+	// Play/Pause button
+	$('.playpause').click(
 		function()
 		{
-			$('.svg').motionchart("motion");
-			//$('a.ui-slider-handle').tooltip("show");
+			var index = $(".slider").slider("value"),									// Current value of slider (and on svg)
+				max = $(".slider").slider("option","max");								// Maximum value of slider (and of key)
+
+			
+			if ($(this).hasClass("pause"))												// Pause
+			{
+				clearInterval(playState);
+				$(this).toggleClass("play").toggleClass("pause");
+				setTimeout( function() {$("a.ui-slider-handle").tooltip("hide")},1000);
+			}
+			else if (index == max) { return; }											// If the slider is already at maximum, return without doing anything.
+			else {																		//Play
+				$(this).toggleClass("play").toggleClass("pause");
+				$("a.ui-slider-handle").tooltip("show");
+				$(".slider").slider("value", ++index);
+				playState = setInterval( function() {
+					$("a.ui-slider-handle").tooltip("show");
+					index = $(".slider").slider("value");
+					if(index == max) { $('.playpause').trigger("click"); }
+					else $(".slider").slider("value", ++index);
+					}, 2000);															//TODO: Reeplace 2000 with value from speed-control
+			}
 		}
 	);
+	
+	// Skip to beginning button
+	$('.backward-skip').dblclick( function()
+	{
+		var index = $(".slider").slider("value"),									// Current value of slider (and on svg)
+			min = $(".slider").slider("option","min");								// Minimum value of slider (and of key)
+
+		if (index > min) $('.slider').slider("value", min);
+	});
+	
+	// Previous step button
+	$('.backward-skip').click( function()
+	{
+		var index = $(".slider").slider("value"),									// Current value of slider (and on svg)
+			min = $(".slider").slider("option","min");								// Minimum value of slider (and of key)
+
+		if (index > min) $('.slider').slider("value", --index);
+	});
+		
+	// Next step button
+	$('.forward-skip').click( function()
+	{
+		var index = $(".slider").slider("value"),									// Current value of slider (and on svg)
+			max = $(".slider").slider("option","max");								// Maximum value of slider (and of key)
+
+		if (index < max) $('.slider').slider("value", ++index);
+	});
+		
+	// Skip to end button
+	$('.forward-skip').dblclick( function()
+	{
+		var index = $(".slider").slider("value"),									// Current value of slider (and on svg)
+			max = $(".slider").slider("option","max");								// Maximum value of slider (and of key)
+
+		if (index < max) $('.slider').slider("value", max);
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

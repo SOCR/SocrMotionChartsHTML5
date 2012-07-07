@@ -45,8 +45,7 @@ width : 1200px;
 	width : 15%;
 	height: 100%;
 	border-left : 1px solid gray;
-}
-.mappings {
+}80pxmappings {
 	margin-top: 10px;
 	color: #F89406;
 	border-bottom: 2px solid #08C;
@@ -83,22 +82,28 @@ width : 1200px;
 	width: 4%;
 	height: 30px;
 	border-right: 1px solid gray;
-	background-image: url(resources/start.png);
-	background-repeat: no-repeat;
-	background-position: center center;
-	margin: 8px 2% 8px 2%;
-	border:		2px solid #08C;
-	-webkit-border-radius: 4px;
+	backgrocontrol-button {
+	float: left;
+	width: 30px;
+	height: 30pxr-radius: 4px;
 	   -moz-border-radius: 4px;
 			border-radius: 4px;
 	cursor: pointer;
 }
-.speed-control {
-	float:left;
-	width:5%;
-	height: 100%;
-	border-right: 1px solid gray;
-	border-left: 1px solid gray;
+.play:hover, .forward:hover, .backward:hover {
+	background-color: rgba(180,180,240,0.5);
+}
+.slider {
+	float: left;	
+	width:70%;
+	margin: 16px 2
+.play {
+	background-image: url(resources/start.png);
+}
+.pause {
+	background-image: url(resources/pause.png);
+}
+ 1px solid gray;
 }
 .slide-control {
 	float: right;
@@ -111,43 +116,23 @@ width : 1200px;
 	width: 30px;
 	height: 30px;
 	background-image: url('resources/skip-backward.png');
-	background-position: center center;
-	background-repeat: no-repeat;
-	margin: 8px 2% 8px 2%;
-	border: 2px solid #08C;
-	-webkit-border-radius: 4px;
-	   -moz-border-radius: 4px;
-			border-radius: 4px;
-	cursor: pointer;
+	background-po-skip {
+	background-image: url('resources/skip-backward.png');
 }
-.forward {
-	float: left;
-	width: 30px;
-	height: 30px;
+.backward-step {
+	background-image: url('resources/seek-backward.png');
+}
+.forward-step {
+	background-image: url('resources/seek-forward.png');
+}
+.forward-skip {
 	background-image: url('resources/skip-forward.png');
-	background-position: center center;
-	background-repeat: no-repeat;
-	margin: 8px 2% 8px 2%;
-	border: 2px solid #08C;
-	-webkit-border-radius: 4px;
-	   -moz-border-radius: 4px;
-			border-radius: 4px;
-	cursor: pointer;
 }
-.play:hover, .forward:hover, .backward:hover {
+.control-button:hover {
 	background-color: rgba(180,180,240,0.5);
 }
-.slider {
-	float: left;	
-	width:70%;
-	margin: 16px 2% 16px 2%;
-}
-.table {
-	display : none;
-	float : left;
-	width : 85%;
-	height: 100%;
-	overflow: overlay;
+.control-button:active {
+	background-color: rgba(180,180,240,0.9rflow: overlay;
 }
 .fill-width
 {
@@ -182,7 +167,7 @@ text {
 
 .circle:hover {
   opacity: 1.";
-  fill: #ddd;
+  0.75l: #ddd;
 }
 
 .year.label.active {
