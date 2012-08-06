@@ -17,12 +17,12 @@
     padding:0;
     
     min-width: 120px;
-    max-width: 250px;
+    max-width: 100px;
     display: inline-block;
     position: absolute;
     list-style-type: none;
     
-    border: 1px solid #DDD;
+    border: 1px solid #FAA732;
     background: #EEE;
     
     -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -30,6 +30,10 @@
         -ms-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
          -o-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+			
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
     
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 11px;
@@ -37,14 +41,14 @@
 
 .context-menu-item {
     padding: 2px 2px 2px 24px;
-    background-color: #EEE;
+    background-color: rgba(180, 180, 240, 0.5);
     position: relative;
     -moz-user-select: -moz-none;
 }
 
 .context-menu-separator {
     padding-bottom:0;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 1px solid #FAA732;
 }
 
 .context-menu-item > label {
@@ -53,6 +57,7 @@
 
 .context-menu-item.hover {
     cursor: pointer;
+    /*background-color: #39F;*/
     background-color: #39F;
 }
 
@@ -82,7 +87,7 @@
     .context-menu-item.icon:before {}
  */
 .context-menu-item.icon { min-height: 18px; background-repeat: no-repeat; background-position: 4px 2px; }
-.context-menu-item.icon-edit { background-image: url(images/page_white_edit.png); }
+.context-menu-item.icon-edit { background-image: url(../../../resources/page_white_edit.png); }
 .context-menu-item.icon-cut { background-image: url(images/cut.png); }
 .context-menu-item.icon-copy { background-image: url(images/page_white_copy.png); }
 .context-menu-item.icon-paste { background-image: url(images/page_white_paste.png); }

@@ -1009,7 +1009,7 @@
 
         actualWidth = $tip[0].offsetWidth
         actualHeight = $tip[0].offsetHeight
-
+		
         switch (inside ? placement.split(' ')[1] : placement) {
           case 'bottom':
             tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
@@ -1084,8 +1084,8 @@
 
   , getPosition: function (inside) {
       return $.extend({}, (inside ? {top: 0, left: 0} : this.$element.offset()), {
-        width: this.$element[0].offsetWidth
-      , height: this.$element[0].offsetHeight
+        width: this.$element[0].offsetWidth ||  ($(this.$element[0]).attr('r') * 2)
+      , height: this.$element[0].offsetHeight || ($(this.$element[0]).attr('r') * 2)
       })
     }
 

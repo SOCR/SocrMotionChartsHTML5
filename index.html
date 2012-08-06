@@ -5,141 +5,47 @@
 <link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet"> 
 <link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
 <link href="MotionChartCss.css" rel="stylesheet">
+<link href="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
-		<div class="header btn-group" data-toggle="buttons-radio">
-			<button class="btn btn-large btn-warning active">Chart</button>
-			<button class="btn btn-large btn-warning">Data</button>
+		<div class="header">
+			<div class="btn-group" data-toggle="buttons-radio">
+				<button class="btn btn-large btn-warning active">Chart</button>
+				<button class="btn btn-large btn-warning">Data</button>
+			</div>
+			<div>
+				<button class="btn btn-large btn-danger" style="float:right" onclick="window.location.href='http://wiki.stat.ucla.edu/socr/index.php/Main_Page'">About</button>
+			</div>
 		</div>
 		<div class="content">
 			<div class="chart" id="tab0">
-				<div class="columnHolder">
-					<div class="y-axis">
-						<div class="btn-group vertical">
-							<ul class="nav nav-pills">   
-							   <li class="dropdown active" style="width:70%">  
-								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">y-axis <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width">  
-								   <li><a href="#">Twitter Bootstrap</a></li>  
-								   <li><a href="#">Google Plus API</a></li>  
-								   <li><a href="#">HTML5</a></li>  
-								   <li class="divider"></li>  
-								   <li><a href="#">Examples</a></li>  
-								 </ul>  
-							   </li> 
-							   <li class="dropdown active" style="width:30%" style="overflow:clip">  
-								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width pull-right scale">  
-								   <li><a href="#">Twitter Bootstrap</a></li>
-								   <li><a href="#">Google Plus API</a></li>  
-								   <li><a href="#">HTML5</a></li>  
-								   <li class="divider"></li>  
-								   <li><a href="#">Examples</a></li>  
-								 </ul>  
-							   </li> 
-							 </ul> 
-						</div>
-					</div>
-					<div class="middleColumn">
-						<div class="svg"></div>
-						<div class="x-axis">
-							<ul class="nav nav-pills">   
-							   <li class="dropup active" style="width:70%">  
-								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">x-axis <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width">  
-								   <li><a href="#">Twitter Bootstrap</a></li>  
-								   <li><a href="#">Google Plus API</a></li>  
-								   <li><a href="#">HTML5</a></li>  
-								   <li class="divider"></li>  
-								   <li><a href="#">Examples</a></li>  
-								 </ul>  
-							   </li> 
-							   <li class="dropup active" style="width:30%">  
-								 <a class="dropdown-toggle" data-toggle="dropdown" href="#">scale <b class="caret bottom-up" align="right"></b></a>  
-								 <ul class="dropdown-menu bottom-up fill-width scale">  
-								   <li><a href="#">Twitter Bootstrap</a></li>  
-								   <li><a href="#">Google Plus API</a></li>  
-								   <li><a href="#">HTML5</a></li>  
-								   <li class="divider"></li>  
-								   <li><a href="#">Examples</a></li>  
-								 </ul>  
-							   </li> 
-							 </ul> 
-						</div>
-					</div>
+				<div class="myMenuTestSub">
+					<span></span>
+				</div>
+				<div class="svg"></div>
 				<div class="timeline">
 					<div class="control-button playpause play"></div>
-					<div class="speed-control"></div>
+					<div class="speed-control">
+						<div class="speed-control-slider"></div>
+					</div>
 					<div class="slider"></div>
 					<div class="slide-control">
 						<div class="control-button backward-skip"></div>
 						<div class="control-button forward-skip"></div>
 					</div>
 				</div>
-				</div>
 			</div>
 			<div class="table dataTable" id="tab1"></div>
-			<div class="rightColumn">
-				<div class="header mappings">Mappings</div>
-				<ul class="nav nav-pills nav-stacked keyMappings">   
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">key <b class="caret bottom-up"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right key">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li> 
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">x-axis <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right xAxis">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li> 
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">y-axis <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right yAxis">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li> 
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">size <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right size">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li> 
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">color <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right color">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li>
-				   <li class="dropdown">  
-					 <a class="dropdown-toggle" data-toggle="dropdown" href="#">category <b class="caret bottom-up" align="right"></b></a>  
-					 <ul class="dropdown-menu bottom-up fill-width pull-right category">  
-					   <li><a href="#">HTML5</a></li>  
-					   <li class="divider"></li>  
-					   <li><a href="#">Examples</a></li>  
-					 </ul>  
-				   </li>  
-				</ul>
-			</div>
 		</div>
 	</div>
 	<script src="jquery-ui-1.8.20/js/jquery-1.7.2.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
 	<script src="jquery-ui-1.8.20/js/jquery-ui-1.8.20.custom.min.js"></script>
 	<script src="jquery-handsontable/jquery.handsontable.js"></script>
 	<script src="jquery-handsontable/lib/jquery.autoresize.js"></script>
+	<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.ui.position.js"></script>
+	<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.js"></script>
 	<script src="d3/d3.v2.js"></script>
 	<script src="MotionChartUI.js"></script>
 	<!--script src="MotionChartD3.js"></script-->

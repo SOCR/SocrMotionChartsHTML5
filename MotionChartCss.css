@@ -1,7 +1,9 @@
 body, html {
 height : 400px;
 width : 1200px;
-}ntainer {
+}
+
+.container {
 	height:100%;
 	width: 100%;
 	text-align : center;
@@ -24,31 +26,23 @@ width : 1200px;
 
 .chart {
 	float : left;
-	width : 85%;
+	width : 100%;
 	height: 100%;
 }
 
 .columnHolder {
 	height : 87%;
 }
-
-.y-axis {
-	float : left;
-	width : 39px;
-	height: 85%;
-	border-right : 1px solid gray;
+.mappings {
+	margin-top: 10px;	
+	color: rgba(248, 148, 6, 1);
 }
-
-.rightColumn {
-	position: absolute;
-	right: 0;
-	width : 15%;
-	height: 100%;
-	border-left : 1px solid gray;
-}80pxmappings {
-	margin-top: 10px;
-	color: #F89406;
-	border-bottom: 2px solid #08C;
+.mappings td:not(.cat)  {
+	color: rgba(0, 136, 204, 0.5); 
+}
+.mappings td:not(.cat):hover  {
+	color: rgba(0, 136, 204, 1); 
+	cursor: pointer;
 }
 .middleColumn {
 	position: relative;
@@ -57,17 +51,48 @@ width : 1200px;
 	height:100%;
 }
 
-.svg {
-	height:85%;
+.myMenuTest {
+	position: absolute;
+	left: 8%;
+	width: 64%;
+	z-index: 1;
+	cursor: default;
+	padding: 1% 4% 2% 0%;
+	background-color: rgba(0,0,0,0.2);
+	border: 2px solid rgba(255,0,0,0.5);
+	-webkit-border-radius: 50px;
+	   -moz-border-radius: 50px;
+			border-radius: 50px;
+	display: block;
+}
+.myMenuTestSub {
+	position: absolute;
+	right: 0px;
+	width: 1px;
+	height: 152px;
+	top: 10%;
+	z-index: 1;
+	cursor: default;
+	padding: 1% 6px 2% 0%;
+	background-color: rgba(0,0,0,0.2);
+	border-left: 2px solid rgba(0, 136, 204, 0.5);
+	border-top: 2px solid rgba(0, 136, 204, 0.5);
+	border-bottom: 2px solid rgba(0, 136, 204, 0.5);
+	-webkit-border-radius: 4px 0 0 4px;
+	   -moz-border-radius: 4px 0 0 4px;
+			border-radius: 4px 0 0 4px;
 }
 
-.x-axis {
-	position:absolute;
-	bottom:0;
-	width: 100%;
-	height: 31px;
-	border-top: 1px solid gray;
-	padding: 4px 0 4px 0;
+.myMenuTestSub .mappings td
+{
+	width: 120px;
+	max-height: 38px;
+	overflow: hidden;
+}
+
+
+.svg {
+	height:85%;
 }
 
 
@@ -77,68 +102,117 @@ width : 1200px;
 	border-top : 1px solid gray;
 }
 
-.play {
-	float: left;
-	width: 4%;
-	height: 30px;
-	border-right: 1px solid gray;
-	backgrocontrol-button {
+.control-button {
 	float: left;
 	width: 30px;
-	height: 30pxr-radius: 4px;
+	height: 30px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 2px solid #08C;
+	-webkit-border-radius: 4px;
 	   -moz-border-radius: 4px;
 			border-radius: 4px;
 	cursor: pointer;
 }
-.play:hover, .forward:hover, .backward:hover {
-	background-color: rgba(180,180,240,0.5);
+.playpause {
+	margin: 8px 20px 8px 20px;
 }
-.slider {
-	float: left;	
-	width:70%;
-	margin: 16px 2
 .play {
 	background-image: url(resources/start.png);
 }
 .pause {
 	background-image: url(resources/pause.png);
 }
- 1px solid gray;
+
+.speed-control {
+	float:left;
+	width:6px;
+	height: 45px;
+	border-right: 1px solid gray;
+	border-left: 1px solid gray;
+	padding: 2px 22px 2px 22px;
+}
+.speed-control-slider.ui-slider-vertical {
+	width: 6px;
+	height: 41px;
+}
+.speed-control-slider a.ui-slider-handle {
+	width: 20px;
+	height: 4px;
+	left: -8px;
+	margin-bottom: -3px;
 }
 .slide-control {
 	float: right;
-	width:10%;
+	width:100px;
 	height: 100%;
-	margin-left: 1%;
 }
-.backward {
-	float: left;
-	width: 30px;
-	height: 30px;
+.backward-skip {
 	background-image: url('resources/skip-backward.png');
-	background-po-skip {
-	background-image: url('resources/skip-backward.png');
-}
-.backward-step {
-	background-image: url('resources/seek-backward.png');
-}
-.forward-step {
-	background-image: url('resources/seek-forward.png');
+	margin: 8px 5px 8px 10px;
 }
 .forward-skip {
 	background-image: url('resources/skip-forward.png');
+	margin: 8px 10px 8px 5px;
 }
 .control-button:hover {
 	background-color: rgba(180,180,240,0.5);
 }
 .control-button:active {
-	background-color: rgba(180,180,240,0.9rflow: overlay;
+	background-color: rgba(180,180,240,0.9);
+}
+.slider {
+	width: 70%;
+	float: left;	
+	margin: 16px 20px 16px 20px;
+}
+.table {
+	display : none;
+	float : left;
+	width : 100%;
+	height: 100%;
+	overflow: overlay;
 }
 .fill-width
 {
 	left:0px;
 	right:0px;
 }
+
+.red2blue
+{
+background-image: linear-gradient(right , #0000FF 26%, #FF0000 82%);
+background-image: -o-linear-gradient(right , #0000FF 26%, #FF0000 82%);
+background-image: -moz-linear-gradient(right , #0000FF 26%, #FF0000 82%);
+background-image: -webkit-linear-gradient(right , #0000FF 26%, #FF0000 82%);
+background-image: -ms-linear-gradient(right , #0000FF 26%, #FF0000 82%);
+background-image: -webkit-gradient(
+	linear,
+	right top,
+	left top,
+	color-stop(0.26, #0000FF),
+	color-stop(0.82, #FF0000)
+);
+color: white;
+}
+.green2yellow
+{
+background-image: linear-gradient(left , #00FF00 26%, #FFFF00 82%);
+background-image: -o-linear-gradient(left , #00FF00 26%, #FFFF00 82%);
+background-image: -moz-linear-gradient(left , #00FF00 26%, #FFFF00 82%);
+background-image: -webkit-linear-gradient(left , #00FF00 26%, #FFFF00 82%);
+background-image: -ms-linear-gradient(left , #00FF00 26%, #FFFF00 82%);
+background-image: -webkit-gradient(
+	linear,
+	left top,
+	right top,
+	color-stop(0.26, #00FF00),
+	color-stop(0.82, #FFFF00)
+);
+color: white;
+}
+.red2blue:hover {opacity: 0.7}
+.green2yellow:hover {opacity: 0.7}
 
 /* SVG Chart */
 
@@ -148,6 +222,11 @@ text {
 
 .circle {
   stroke: #000;
+  opacity: 0.5;
+}
+
+.circle:hover {
+  opacity: 0.75;
 }
 
 .axis path, .axis line {
@@ -162,16 +241,17 @@ text {
 
 .year.label {
   font: 500 196px "Helvetica Neue";
-   opacity: 0.5;
-}
-
-.circle:hover {
-  opacity: 1.";
-  0.75l: #ddd;
+  fill: #ddd;
 }
 
 .year.label.active {
   fill: #aaa;
+}
+
+text.label:hover {
+	fill: red;
+	fill-opacity: 0.75;
+	cursor: pointer;
 }
 
 /*Irregular stuff*/
@@ -218,4 +298,25 @@ margin-bottom: 5%;
 .open .caret {
   opacity: 1;
   filter: alpha(opacity=100);
+}
+.popover-inner {
+  width: auto;
+  background-color: rgba(160, 160, 255, 0.50);
+}
+.popover-title{
+  padding: 5px 5px;
+  background-color: #D7D7FF;
+  text-align: center;
+}
+.popover-content{
+  padding: 5px 10px;
+}
+.popover.right .arrow{
+  border-right: 5px solid rgba(160, 160, 255, 0.50);
+}
+.popover.left .arrow  {
+  border-left: 5px solid rgba(160, 160, 255, 0.50);
+}
+.header .btn-group::after {
+	clear: none;
 }

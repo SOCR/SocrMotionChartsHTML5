@@ -1,14 +1,15 @@
 (function($){
 	function motionChart(element, options)
 	{
-		var xScale, yScale, radiusScale, colorScale, xAxisOrient, yAxisOrient, svg, xAxis, yAxis, xLabel, yLabel, label, circles, circle, csv, mapnest, mappings = [], mappingID = [];
+		var xScale, yScale, radiusScale, colorScale, xAxisOrient, yAxisOrient, svg, xAxis, yAxis, xLabel, yLabel, label, circles, circle, csv, nest, duration, mappings = [], mappingID = [], NaNMap = [], colorRange = {};
 
 		var MapEnum = { key: 0, x: 1, y: 2, size: 3, color: 4, category: 5 };
-		ar settings = $.extend({
+		
+		var settings = $.extend({
 			param: 'defaultValue'
 		}, options || {});
 
-		var margin = {top: 19.5, right: 19.5, bottom: 29.5, left: 39.5},
+		var margin = {top: 39.5, right: 39.5, bottom: 29.5, left: 39.5},
 		width = $(".svg").innerWidth() - margin.left - margin.right,
 		height = $(".svg").innerHeight() - margin.top - margin.bottom;
 
@@ -24,8 +25,11 @@
 					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 				// The x & y axes.
-				xAxisOrient = d3.svg.axis().orient("bottom").ticks(10, d3.format(",d"));;
-				yAxisOrient = d3.svg.axis().orient("left");xAxis = svg.append("g")
+				xAxisOrient = d3.svg.axis().orient("bottom");
+				yAxisOrient = d3.svg.axis().orient("left");
+
+				// Add the x-axis.
+				xAxis = svg.append("g")
 					.attr("class", "x axis")
 					.attr("transform", "translate(0," + height + ")")
 					.call(xAxisOrient);
@@ -40,16 +44,17 @@
 					.attr("class", "x label")
 					.attr("text-anchor", "end")
 					.attr("x", width)
-					.attr("y", height - 6)
-					//.text(mappings[$('ul.xAxis').data('ID')pend("text")
+					.attr("y", height - 6);
+
+				// Add a y-axis label
+				yLabel = svg.append("text")
 					.attr("class", "y label")
 					.attr("text-anchor", "end")
 					.attr("y", 6)
 					.attr("dy", ".75em")
-					.attr("transform", "rotate(-90)")
-					//.text(mappings[$('ul.yAxis').data('ID')]);
+					.attr("transform", "rotate(-90)");
 
-				ion.
+				// Add the year label; the value is set on transition.
 				label = svg.append("text")
 					.attr("class", "year label")
 					.attr("text-anchor", "end")
@@ -58,29 +63,30 @@
 					
 				// Initialise Circles
 				circles = svg.append("g")
-				.attr("class", "circles")
-			},
-			getData: function()
-			{	
 					.attr("class", "circles");
+					
+				//set Default Color Range
+				colorRange = {from: "rgb(255,0,0)", to: "rgb(0,0,255)"};
+				
+				//Initialise duration
+				duration = 1000;
 
 			},
-			getDatresize: function() {
+			resize: function() {
 				width = $(".svg").innerWidth() - margin.left - margin.right,
 				height = $(".svg").innerHeight() - margin.top - margin.bottom;
 				//d3.select("svg g").remove();
 				// re-size the SVG container.
-				d3.selectidth", width + margin.left + margin.right)
-					.attr("height", height + margin.top + margin.bottom)
-				  .append("g")
-			;
+				d3.select("svg")
+					.attr("width", width + margin.left + margin.right)
+					.attr("height", height + margin.top + margin.bottom);
 					
 				// Reposition the x-axis to the bottom of the chart.
 				xAxis.attr("transform", "translate(0," + height + ")");
 				
 				// Reset the axis scale to the new width and height
-				isNaN(csv[0][mappings[mappingID[MapEnum.x]]]) ?	xScale.rangePoints([0, width]) : xScale.range([0, width]);
-				isNaN(csv[0][mappings[mappingID[MapEnum.y]]]) ? yScale.rangePoints([height, 0]): yScale.range([height, 0]);
+				(NaNMap[mappingID[MapEnum.x]]) ?	xScale.rangePoints([0, width]) : xScale.range([0, width]);
+				(NaNMap[mappingID[MapEnum.y]]) ? yScale.rangePoints([height, 0]): yScale.range([height, 0]);
 				xAxis.call(xAxisOrient.scale(xScale));
 				yAxis.call(yAxisOrient.scale(yScale));
 				
@@ -92,74 +98,104 @@
 					.attr("cx", function(d) { return xScale( chart.x(d)) })							//set x postion
 					.attr("cy", function(d) { return yScale( chart.y(d)) })							//set y position
 			},
-			updatefunction()
-			{csvFormat = d3.csv.format( $('.dataTable').handsontable('getNonEmptyData') );
+			updateData: function()
+			{
+				// Convert the table into comma seperated value format
+				var csvFormat = d3.csv.format( $('.dataTable').handsontable('getNonEmptyData') );
 				
 				// Parse the csv format into objects
 				csv = d3.csv.parse(csvFormat);
 				
 				//Get first row for mappings
-				mappings = $('.dataTable').handsontaetMappitMappings');
-				setMappings( mappings );		
+				mappings = $('.dataTable').handsontable('getMappings');
 				
-				// Convert strings to numbers.
-				csv.forEach(f
-				//nest the data by keyest = d3.nest()
+				//nest the data by key
+				nest = d3.nest()
 					.key(function(d) { return chart.key(d); })
 					//.sortValues(function (a,b) { return chart.radius(b) - chart.radius(a); })
 					.map(csv);
 				console.log("csv" + JSON.stringify(csv));
 				console.log("nest" + JSON.stringify(nest));
-				console.log("nest entreisnestle.log("nest entreis" + JSON.stringify(d3.entries(nest)));
-				console.log("nest valyes" + JSON.stringify(d3.values(nest))) } Comma Seperated V	
+				console.log(nest);
+				console.log("nest entreis" + JSON.stringify(d3.entries(nest)));
+				console.log("nest valyes" + JSON.stringify(d3.values(nest)));
+				
 				// Add Circles relative to data.
-				selectAll(".circle")
+				circle = circles.selectAll(".circle")
 					// .data(d3.values(nest), function(d) { return chart.key(d))
-					.data(d3.values(nest)[0])
-					.enter().appe;
-
-				//TODO: move to UI for clean up
-				setMappings( mappings rated Values (csv)
-		   **/
+					.data(d3.values(nest)[0]);
+					
+				var csvSampleValues = d3.values(csv[0]);
+				for(var i=0;i<csvSampleValues.length;i++)
+				{	NaNMap[i] = isNaN(csvSampleValues[i]); }
+				
+				setMappings( mappings );														//TODO: move to UI for clean up
+				
+				
+				// csv.forEach(function(d) {
+					
+			},
+		    /**
+			* Sets xScale, yScale, radiusScale, colorScale
+			* @param { Object } Comma Seperated Values (csv)
+		    **/
 			setScales: function ()
-			{
-				// Various scales. These domains make assumptions of data, naturally.
-				xScale = d3.scale.linear().domain(var thisArray=[];
+			{			
+				var thisArray=[];
 				// x, y, radius and color scales. These scales assume the numerical data.
-				xScale = isNaN(csv[0][mappings[mappingID[MapEnum.x]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.x(d)) })).rangePoints([0, width]) : d3.scale.linear().domain(d3.extent(csv, chart.x )).range([0, width]); thisArray.length = 0;
-				yScale = isNaN(csv[0][mappings[mappingID[MapEnum.y]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.y(d)) })).rangePoints([height, 0]) : d3.scale.linear().domain(d3.extent(csv, chart.y )).range([height, 0]); thisArray.length = 0;
-				radiusScale = isNaN(csv[0][mappings[mappingID[MapEnum.size]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.radius(d)) })).rangePoints([10, 40]) : d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]); thisArray.length = 0;
-				colorScale = isNaN(csv[0][mappings[mappingID[MapEnum.color]]]) ? d3.scale.category20() :5)"]).interpolate(d3.intchart.color elative to data.
-				circle = circles.selectAll(".circle").data(csv);
-			},
-			update: fun thisArray.length = 0;
-			},
-			updateAxis: function()
-			{
-
+				xScale = (NaNMap[mappingID[MapEnum.x]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.x(d)) })).rangePoints([0, width]) : d3.scale.linear().domain(d3.extent(csv, chart.x )).range([0, width]); thisArray.length = 0;
+				yScale = (NaNMap[mappingID[MapEnum.y]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.y(d)) })).rangePoints([height, 0]) : d3.scale.linear().domain(d3.extent(csv, chart.y )).range([height, 0]); thisArray.length = 0;
+				radiusScale = (NaNMap[mappingID[MapEnum.size]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.radius(d)) })).rangePoints([10, 40]) : d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]); thisArray.length = 0;
+				colorScale = (NaNMap[mappingID[MapEnum.color]]) ? d3.scale.category20() : d3.scale.linear().domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb); thisArray.length = 0;
 			},
 			update: function(keyIndex)
 			{
 				//Select all circles in SVG. If keyIndex is -1 (Passed by updateMapping) use current data. Otherwise Bind them to data with current key values.
 				if (keyIndex != -1) circle = svg.selectAll(".circle").data(d3.values(nest)[keyIndex]/*, chart.category*/)
-					/*.sort(function (a,b) {return chart.radius(b) - chart.radius(a); })*/;
+					//circle.sort(function (a,b) {alert("");console.log(a);console.log(b);return chart.radius(b) - chart.radius(a); });													//Set the metadata blobs
+					
+				
 				
 				//Enter
-				circle.enter().append("circle").attr("class","circle").append("title");
-				
-				console.log(circle);	//Debug
+				circle.enter().append("circle").attr("class","circle");
 					
 				//Transition
-				circle.transition().duration(2000).ease("linear")
+				circle.transition().duration(duration).ease("linear")
 					.attr("cx", function(d) { return xScale( chart.x(d)) })							//set x postion
 					.attr("cy", function(d) { return yScale( chart.y(d)) })							//set y position
 					.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
-					.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
-					.select("title").text( chart.category );										//Add a title
-					
+					.style("fill", function(d) { return colorScale( chart.color(d)) });				//Set color
+				
+				circle.call(chart.setPopover);
+				
 				//Exit
 				circle.exit().transition()
 				  .duration(1000).attr("r", 0).remove();
+				
+			},
+			//Call popover for each circle
+			setPopover: function()
+			{
+				
+				$(this).each( function() {
+				
+					$(this).popover({
+						placement: function() {return ($(this.$element[0]).attr('cx') < (3 * width / 4)) ? "right" : "left"},
+						title: function() {return (typeof chart.category(d3.select(this).datum())!=='undefined') ? chart.category(d3.select(this).datum()) : "Data"},
+						content: function() { 
+							var outputObject = d3.select(this).datum();
+							
+							var output = "";
+							var keys = d3.keys(outputObject);
+							var values = d3.values(outputObject);
+							
+							for(var i=0;i<keys.length;i++)
+							output += keys[i] + " : " + values[i] + "<br>";
+							
+							return output;
+						}
+					});
+				});
 			},
 			// TODO: Define a sort order so that the smallest dots are drawn on top.
 			/**
@@ -184,56 +220,180 @@
 						$('.slider').slider("value", 0);									//Reset Slider
 						d3.entries(nest).forEach(function(d) {thisArray.push(d.key) });
 						setKeyNames(thisArray);
-	nction() { $(this).tooltip({ title: function() { return csv[$(this).index()
-			},
-			update: function(keyInd			
+						
 						break;
 						
 					case MapEnum.x:
 						//Update x axis scale and label
-						xScale = isNaN(csv[0][mappings[mappingID[MapEnum.x]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.x(d)) })).rangePoints([0, width]) : d3.scale.linear().domain(d3.extent(csv, chart.x )).range([0, width]);
+						xScale = (NaNMap[mappingID[MapEnum.x]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.x(d)) })).rangePoints([0, width]) : d3.scale.linear().domain(d3.extent(csv, chart.x )).range([0, width]);
 						xAxis.call(xAxisOrient.scale(xScale));
 						xLabel.text(mappings[mappingID[MapEnum.x]]);
-						circle.transition().duration(2000).ease("linear")
+						circle.transition().duration(duration).ease("linear")
 							.attr("cx", function(d) { return xScale( chart.x(d)) })							//set x postion
 						break;
 						
 					case MapEnum.y:
 						//Update y axis scale and label
-						yScale = isNaN(csv[0][mappings[mappingID[MapEnum.y]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.y(d)) })).rangePoints([height, 0]) : d3.scale.linear().domain(d3.extent(csv, chart.y )).range([height, 0]);
+						yScale = (NaNMap[mappingID[MapEnum.y]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.y(d)) })).rangePoints([height, 0]) : d3.scale.linear().domain(d3.extent(csv, chart.y )).range([height, 0]);
 						yAxis.call(yAxisOrient.scale(yScale));
 						yLabel.text(mappings[mappingID[MapEnum.y]]);
-						circle.transition().duration(2000).ease("linear")
+						circle.transition().duration(duration).ease("linear")
 							.attr("cy", function(d) { return yScale( chart.y(d)) })							//set y position
 						break;
 						
 					case MapEnum.size:
 						//Update Radius Scale
-						radiusScale = isNaN(csv[0][mappings[mappingID[MapEnum.size]]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.radius(d)) })).rangePoints([10, 40]) : d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]);
-						circle.transition().duration(2000).ease("linear")
+						radiusScale = (NaNMap[mappingID[MapEnum.size]]) ? d3.scale.ordinal().domain(thisArray, csv.forEach(function(d) {thisArray.push(chart.radius(d)) })).rangePoints([10, 40]) : d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]);
+						circle.transition().duration(duration).ease("linear")
 							.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
 						break;
 						
 					case MapEnum.color:
 						//Update Color Scale
-						colorScale = isNaN(csv[0][mappings[mappingID[MapEnum.color]]]) ? d3.scale.category20() :5)"]).interpolate(d3.intchart.color elative to data.
-				circle = circles.selectAll(".circle").data(csv);
-			},
-			update: function			circle.transition().duration(2000).ease("linear")
+						colorScale = (NaNMap[mappingID[MapEnum.color]]) ? d3.scale.category20() : d3.scale.linear().domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+						circle.transition().duration(duration).ease("linear")
 							.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
 						break;
 					case MapEnum.category:
-						//Update Category Scale
-						circle.transition().duration(2000).ease("linear")
-							.select("title").text( chart.category );
+						//Do Nothing for now..
 						break;
 				}
 						
-			},D[MapEnum.key]]]; },
-			x: function (d) { return d[mappings[mappingID[MapEnum.x]]]; },
-			y: function (d) { return d[mappings[mappingID[MapEnum.y]]]; },
-			radius: function (d) { return d[mappings[mappingID[MapEnum.size]]]; },
-			color: function (d) { return d[mappings[mappingID[MapEnum.color]]]; },
+			},
+			/**
+			 * Called automatically when scaling changed through the UI
+			 * @param {Integer} number denoting the mapping changed. Reflected in MapEnum.
+			 * @param {String} Denoting the scale to convert to - "linear","sqrt" or "log"
+			**/
+			updateScale: function(keyID, toScale) {
+				
+				switch(keyID)
+				{
+					case MapEnum.x:
+						switch(toScale)
+						{
+							case "linear":
+								xScale = d3.scale.linear().domain(d3.extent(csv, chart.x )).range([0, width]).nice();
+								xAxis.transition().duration(1000)
+									.call(xAxisOrient.scale(xScale));
+								break;
+							case "sqrt":
+								xScale = d3.scale.sqrt().domain(d3.extent(csv, chart.x )).range([0, width]).nice();
+								xAxis.transition().duration(1000)
+									.call(xAxisOrient.scale(xScale));
+								break;
+							case "log":
+								var format = d3.format(".0f"); // for formatting integers
+								xScale = d3.scale.log().domain(d3.extent(csv, chart.x )).range([0, width]).nice();
+								xAxis.transition().duration(1000)
+									.call(xAxisOrient.scale(xScale));
+								break;
+							case "pow":
+								xScale = d3.scale.pow().exponent(2).domain(d3.extent(csv, chart.x )).range([0, width]).nice();
+								xAxis.transition().duration(1000)
+									.call(xAxisOrient.scale(xScale));
+								break;
+						}
+						break;
+						
+					case MapEnum.y:
+						switch(toScale)
+						{
+							case "linear":
+								yScale = d3.scale.linear().domain(d3.extent(csv, chart.y )).range([height, 0]);
+								yAxis.transition().duration(1000)
+									.call(yAxisOrient.scale(yScale));
+								break;
+							case "sqrt":
+								yScale = d3.scale.sqrt().domain(d3.extent(csv, chart.y )).range([height, 0]);
+								yAxis.transition().duration(1000)
+									.call(yAxisOrient.scale(yScale));
+								break;
+							case "log":
+								var format = d3.format(".0f"); // for formatting integers
+								yScale = d3.scale.log().domain(d3.extent(csv, chart.y )).range([height, 0]);
+								yAxis.transition().duration(1000)
+									.call(yAxisOrient.scale(yScale));
+								break;
+							case "pow":
+								yScale = d3.scale.pow().exponent(2).domain(d3.extent(csv, chart.y )).range([height, 0]);
+								yAxis.transition().duration(1000)
+									.call(yAxisOrient.scale(yScale));
+								break;
+						}
+						break;
+						
+					case MapEnum.size:
+						switch(toScale)
+						{
+							case "linear":
+								radiusScale = d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]);
+								circle.transition().duration(1000).ease("linear")
+									.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
+								break;
+							case "sqrt":
+								radiusScale = d3.scale.sqrt().domain(d3.extent(csv, chart.radius )).range([10, 40]);
+								circle.transition().duration(1000).ease("linear")
+									.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
+								break;
+							case "log":
+								var format = d3.format(".0f"); // for formatting integers
+								radiusScale = d3.scale.log().domain(d3.extent(csv, chart.radius )).range([10, 40]);
+								circle.transition().duration(1000).ease("linear")
+									.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
+								break;
+							case "pow":
+								radiusScale = d3.scale.pow().exponent(2).domain(d3.extent(csv, chart.radius )).range([10, 40]);
+								circle.transition().duration(1000).ease("linear")
+									.attr("r", function(d) { return radiusScale( chart.radius(d)) })				//Set radius
+								break;
+						}
+						break;
+						
+					case MapEnum.color:
+						switch(toScale)
+						{
+							case "linear":
+								colorScale = d3.scale.linear().domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+								circle.transition().duration(duration).ease("linear")
+									.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
+								break;
+							case "sqrt":
+								colorScale = d3.scale.sqrt().domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+								circle.transition().duration(duration).ease("linear")
+									.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
+								break;
+							case "log":
+								colorScale = d3.scale.log().domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+								circle.transition().duration(duration).ease("linear")
+									.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
+								break;
+							case "pow":
+								colorScale = d3.scale.pow().exponent(2).domain(d3.extent(csv, chart.color )).range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+								circle.transition().duration(duration).ease("linear")
+									.style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
+								break;
+						}
+						break;
+				}
+			},
+			/**
+			 * Called automatically when color range changed through the UI
+			 * @param {String} RGB color - Start Range
+			 * @param {String} RGB color - End Range
+			**/
+			updateColorRange: function(from, to) {
+				colorRange.from = from;
+				colorRange.to = to;
+				colorScale.range([colorRange.from,colorRange.to]).interpolate(d3.interpolateRgb);
+				// circle.transition().duration(duration).ease("linear")
+					// .style("fill", function(d) { return colorScale( chart.color(d)) })				//Set color
+			},
+			key: function (d) { return (NaNMap[mappingID[MapEnum.key]]) ? d[mappings[mappingID[MapEnum.key]]] : +d[mappings[mappingID[MapEnum.key]]]; },
+			x: function (d) { return (NaNMap[mappingID[MapEnum.x]]) ? d[mappings[mappingID[MapEnum.x]]] : +d[mappings[mappingID[MapEnum.x]]]; },
+			y: function (d) { return (NaNMap[mappingID[MapEnum.y]]) ? d[mappings[mappingID[MapEnum.y]]] : +d[mappings[mappingID[MapEnum.y]]]; },
+			radius: function (d) { return (NaNMap[mappingID[MapEnum.size]]) ? d[mappings[mappingID[MapEnum.size]]] : +d[mappings[mappingID[MapEnum.size]]]; },
+			color: function (d) { return (NaNMap[mappingID[MapEnum.color]]) ? d[mappings[mappingID[MapEnum.color]]] : +d[mappings[mappingID[MapEnum.color]]]; },
 			category: function (d) { return d[mappings[mappingID[MapEnum.category]]]; }
 		};
 		
@@ -281,21 +441,17 @@
 
 ******************************************tESTING AREA END*********************************************************/
 		
-		is.init = function()
+		
+		// Public method - can be called from client code
+		this.publicMethod = function()
 		{
-			chart.init();
-			chart.getData();
-			chart.setScales();
-			chart.update();
+			console.log('public method called!');
 		};
 		
-		this.mappingsChange = function()
+		this.init = function()
 		{
-			chart.setScales();
-			chart.update();
-		};
-
-		// Private method - can only be called from//chart.update(d3.min(csv, function(d) { return chart.key(d); }))updateData();
+			chart.init();
+			chart.updateData();
 			chart.setScales();
 			chart.update(0);
 		};
@@ -309,21 +465,21 @@
 			chart.updateData();
 			chart.setScales();
 			chart.update(0);
-		}; 0;
+		};
+		this.motion = function()
+		{
+			chart.update(0);
+			var max = d3.values(nest).length;
+			var	index = max > 0 ? 1 : 0;
 			var timeline = setInterval( function()
 			{
-				// chart.redraw(function(d, i) {return chart.key(d)[i];});
 				chart.update(index);
-				index++;
-				if(index >= max) 
-				{
-chart.update(index);
 				index++;
 				if(index >= max)
 				{
 					clearInterval(timeline);
 				}
-			}, 2000);
+			}, duration);
 		};
 		this.updateCurrentIndex = function (index)
 		{
@@ -334,10 +490,36 @@ chart.update(index);
 			mappingID[keyID] = mapID; 
 			chart.updateMapping(keyID);
 		};
+		this.updateScales = function(mapID, scaleType)
+		{
+			chart.updateScale(mapID, scaleType);
+			chart.update(-1);
+		};
+		this.updateColor = function(from, to)
+		{
+			chart.updateColorRange(from, to);
+			chart.update(-1);
+		};
+		this.updateSpeed = function(newSpeed)
+		{
+			duration = newSpeed;
+		};
 		this.resize = function ()
 		{
-			chart.resize();rly if this element already has a plugin instance
-			if ((motioaction, options)
+			chart.resize();
+		}
+		this.disableScale = function(mapEnum)
+		{
+			return NaNMap[mappingID[mapEnum]];
+		}
+		// Private method - can only be called from within this object
+		var privateMethod = function()
+		{
+			console.log('private method called!');
+		};
+	}
+
+	$.fn.motionchart = function(action, options)
 	{
 		var motionchart;
 		var element = $(this);
@@ -361,5 +543,9 @@ chart.update(index);
 			// pass options to plugin constructor
 			motionchart = new motionChart(this, options);
 			
+			// Store plugin object in this element's data
+			element.data('motionchart', motionchart);
+			motionchart.init();
+		}
 	};
 })(jQuery);
