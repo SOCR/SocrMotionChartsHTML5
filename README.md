@@ -161,7 +161,7 @@ Scaling Types:
 * `exponential`: Defines a polynomial scale `x->y^2`. **Note:** To be changed to 'poly' in future revisions.
 
 Mappings object should be in the following format `{key:N, x:N, y:N, size:N, color:N, category:N}`
-Where N is a number from 0 to (the number of columns - 1) and all components are optional.
+Where `N` is a number from 0 to (the number of columns - 1) and all components are optional.
 
 Mappings default option is
 
@@ -180,7 +180,7 @@ Given that the default data column length is 5.
 **Note:** There is an internal check on the maximum data column length where a number larger would be capped to data column length - 1.
 
 Scalings object should be in the following format `{x:SCALE_TYPE, y:SCALE_TYPE, size:SCALE_TYPE, color:SCALE_TYPE}`.
-Where SCALE_TYPE is a string with one of the scaling type values noted above and all components are optional.
+Where `SCALE_TYPE` is a string with one of the scaling type values noted above and all components are optional.
 
 Scalings default option is
 
@@ -194,41 +194,24 @@ Scalings default option is
 ```
 **Note:** Scalings is currently case sensitive. This might be changed in future revisions.
 
-## License 
+## Authors
 
-Copyright (c) 2012 Ramy Elkest &lt;ramyelkest@gmail.com&gt;
+**Ramy Elkest**
+* ramyelkest@gmail.com
 
-**The MIT License**
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+## Copyright and License 
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+**The LGPL License**
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Copyright (c) 2012 Statistics Online Computational Resource (SOCR) &lt;http://www.StatisticsResource.org&gt;
 
-**The LGPL License***
+All SOCR programs, materials, tools and resources are developed by and freely disseminated to the entire community.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Users may revise, extend, redistribute, modify under the terms of the Lesser GNU General Public License
+as published by the Open Source Initiative http://opensource.org/licenses/. All efforts should be made to develop and distribute
+factually correct, useful, portable and extensible resource all available in all digital formats for free over the Internet.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+SOCR resources are distributed in the hope that they will be useful, but without
+any warranty; without any explicit, implicit or implied warranty for merchantability or
+fitness for a particular purpose. See the GNU Lesser General Public License for
+more details see http://opensource.org/licenses/lgpl-license.php.
