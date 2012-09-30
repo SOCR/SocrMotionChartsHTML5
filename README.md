@@ -8,7 +8,7 @@ You can see a live example on http://socr.ucla.edu/htmls/HTML5/MotionChart/ or f
 
 First, include all the dependencies:
 
-```html
+```javascript
 <!--StyleSheets-->
 <link href="MotionChartCss.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -33,16 +33,13 @@ Run `motionchart()` on an empty div to initialise a motionchart with default set
 
 Or pass options when calling the constructor for a customised instance.
 
-```html
-<div id="dataTable" class="dataTable"></div>
-<script>
+```javascript
  $('.motionchart').motionchart({
 							title: "My Demo",
 							mappings: {key: 1, x: 2, y: 3, size: 5, color: 4, category: 0},
 							colorPalette: {	"Blue-Red": {from: "rgb(0,0,255)", to: "rgb(255,0,0)"}},
 							color: "Blue-Red"
 						});
-</script>
 ```
 
 ## Changelog
@@ -80,7 +77,7 @@ The Data passed can be any table/spreadsheet formatted as a nested array. The da
 
 The data should have the following structure.
 
-```
+```javascript
 [
 	[ColumnName1, ColumnName2, ... , ColumnNameN],
 	[Row1Value1, Row1Value2, ... , Row1ValueN],
@@ -92,7 +89,7 @@ The data should have the following structure.
 
 The default option, taken from [Warpech's handsontable](https://github.com/warpech/jquery-handsontable), is
 
-```
+```javascript
 [
 	["Year", "Kia", "Nissan", "Toyota", "Honda"],
 	["2008", 10, 11, 12, 13],
@@ -111,7 +108,7 @@ Color is simply a key name for one of the values in colorPalette.
 
 The colorPalette object's format is as follows
 
-```
+```javascript
 { 
 	Color1Name: { from: "rgb(R,G,B)", to: "rgb(R,G,B)" },
 	Color2Name: { from: "rgb(R,G,B)", to: "rgb(R,G,B)" },
@@ -123,7 +120,7 @@ Where R,G,B are numbers from 0-255 representing the intensity of Red, Green, Blu
 
 The default option is
 
-```
+```javascript
 {
 	"Red-Blue": {
 		from: "rgb(255,0,0)",
@@ -168,7 +165,7 @@ Where N is a number from 0 to (the number of columns - 1) and all components are
 
 Mappings default option is
 
-```
+```javascript
 {
 	key: 0,
 	x: 1,
@@ -187,7 +184,7 @@ Where SCALE_TYPE is a string with one of the scaling type values noted above and
 
 Scalings default option is
 
-```
+```javascript
 {
 	x: "linear",
 	y: "linear",
