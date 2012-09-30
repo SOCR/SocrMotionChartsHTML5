@@ -10,10 +10,10 @@ First, include all the dependencies:
 
 ```html
 <!--StyleSheets-->
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet">
-<link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
 <link href="MotionChartCss.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
+<link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet">
 <link href="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
 <!--Scripts-->
 <script src="jquery-ui-1.8.20/js/jquery-1.7.2.min.js"></script>
@@ -37,7 +37,7 @@ Or pass options when calling the constructor for a customised instance.
 <div id="dataTable" class="dataTable"></div>
 <script>
  $('.motionchart').motionchart({
-  						title: "My Demo",
+							title: "My Demo",
 							mappings: {key: 1, x: 2, y: 3, size: 5, color: 4, category: 0},
 							colorPalette: {	"Blue-Red": {from: "rgb(0,0,255)", to: "rgb(255,0,0)"}},
 							color: "Blue-Red"
@@ -104,7 +104,9 @@ The default option, taken from [Warpech's handsontable](https://github.com/warpe
 ### Color and ColorPalette
 
 Color Palette is an extensible Object that pre-defines color gradients from which the user can choose.
+
 The color gradients are used as scale to represent the difference/similarity between circles' values.
+
 Color is simply a key name for one of the values in colorPalette.
 
 The colorPalette object's format is as follows
@@ -134,6 +136,7 @@ The default option is
 }
 ```
 **Note:** The list of default options may be expanded in future revisions.
+
 **Note:** When passing a colorPalette it is extended (added to) to the existing default option. This might be changed in future revisions.
 
 Color is simply a value from the range of values `Color1Name, Color2Name, ... ,ColorNName`.
