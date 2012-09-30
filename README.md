@@ -1,183 +1,234 @@
-# SOCR  Motion Chart HTML5 Documentation
+# SOCR HTML5 Motion Chart
 
-###Introduction###
-Motion Chart HTML5 Documentation is a detailed documentation of [[SOCR]]'s Motion Chart jQuery plugin.
+Motion Chart is a jQuery plugin designed to render dynamic bubble charts and allows efficient and interactive exploration and visualization of longitudinal multivariate Data.
 
-###Overview###
-The jQuery plugin was designed with a [[MVC]] structure in mind. It is not strictly enforced due to jQuery's plugins’ callback nature. Nevertheless it helps organise different aspects of the plugin. The core components of Motion Chart are Priv, View, Controller and Chart. Additionally there’s a settings object and motionchart function.
+You can see a live example on http://socr.ucla.edu/htmls/HTML5/MotionChart/ or fork an example on [JSFiddle--Todo](http://jsfiddle.net/).
 
-###Priv###
-Contains Motion Chart’s private variables
+## How-To
 
-* settings: Inherits options from object settings or (if specified) user options
-* dom: jQuery objects
+First, include all the dependencies:
 
-###View###
-####Overview####
-The view object constructs and maintains Motion Chart’s DOM. This includes constructing sliders, tables, tooltips, menus and resizing components.
+```html
+<!--StyleSheets-->
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet">
+<link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
+<link href="MotionChartCss.css" rel="stylesheet">
+<link href="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
+<!--Scripts-->
+<script src="jquery-ui-1.8.20/js/jquery-1.7.2.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="jquery-ui-1.8.20/js/jquery-ui-1.8.20.custom.min.js"></script>
+<script src="jquery-handsontable/jquery.handsontable.js"></script>
+<script src="jquery-handsontable/lib/jquery.autoresize.js"></script>
+<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.ui.position.js"></script>
+<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.js"></script>
+<script src="d3/d3.v2.js"></script> 
+<script src="canvg/rgbcolor.js"></script> 
+<script src="canvg/canvg.js"></script> 
+<script src="jquery.motionchart.js"></script>
+```
 
-####Components####
-* Build: Constructs the DOM skeleton for the motionchart instance and stores teh jquery references in priv.dom to minimize DOM lookups.
-* Sliders: Creates two sliders: 
-** Documentation available on http://jqueryui.com/demos/slider/
-** mainSlider (used to control the chart)
-*** min: always set to 0
-*** max: initialised to 1, set to the maximum key length during axis key change
-*** step: always set to 1
-*** animate: initialised to priv.settings.speed, updated when speedSlider is changed
-*** change: when the slider is altered chart.update is called with the slider’s value as the parameter. Meaning the slider triggers the chart to update to a new key
-** speedSlider (used to control the motion speed)
-*** min: initialised to priv.settings.minSpeed, defaulted at 1000
-*** max: initialised to priv.settings.maxSpeed, defaulted at 6000
-*** step: always set to 500
-*** orientation: vertical
-*** slide: everytime the slider is triggered to slide, show tooltip (which contains the speed value) Might be removed
-*** change: when the slider is altered update chart’s duration and mainSlider’s animation speed
+Run `motionchart()` on an empty div to initialise a motionchart with default settings.
 
-* table: Constructs a handsontable instance in priv.dom.$table
-** rows: 10, initial number of rows
-** cols: 10, initial number of columns
-** minSpareRows: 1, minimum number of empty rows to maintain at the end
-** min SpareCols: 1, minimum number of empty columns to maintain at the end
-** contextMenu: true, allow right click options
-** onChange: on table change update chart data and reset mappings MOVE TO TABCHANGE
+Or pass options when calling the constructor for a customised instance.
 
-* tooltips
-** mainSlider handler: displays slider value
-** play/pause button: displays info.
-** backward button: displays info.
-** forward button: displays info.
+```html
+<div id="dataTable" class="dataTable"></div>
+<script>
+ $('.motionchart').motionchart({
+  						title: "My Demo",
+							mappings: {key: 1, x: 2, y: 3, size: 5, color: 4, category: 0},
+							colorPalette: {	"Blue-Red": {from: "rgb(0,0,255)", to: "rgb(255,0,0)"}},
+							color: "Blue-Red"
+						});
+</script>
+```
 
-* initWindow
-** If container is smaller than priv.settings.minWidth/minHeight, resizes container to priv.settings.minWidth/minHeight respectively
-** Resizes dom components from the top ($content) down ($play)
+## Changelog
 
-* resize: Applies resizable plugin to $svg
-** minHeight: priv.settings.minHeight, minimum $svg height
-** minWidth: priv.settings.minWidth, minimum $svg width
-** handles: se, place a handle only on the south east (bottom right) corner
-** resize: when resized
-*** resizes the dom from the bottom ($svg) up (container)
-*** calls chart.resize() to resize the SVG element including axes and nodes’ positioning
+MotionChart-v3.1 - First official public release.
 
-* Context Menu: Initialises all Context menus
-** $svg context menu: Covers all mappings, scales, colormaps and Save As Image
-*** selector: .svg, bind context menu to .svg
-*** trigger: none, we will create a custom trigger (right-click) in controller.contextmenu to bind the trigger to specific motionchart instances
-*** build: returns object containing list of menu elements and callbacks
-*** items:
-****map: view.keyItems.getMapItems() passed through $trigger.data(“items”)
-****scale :
-***** items: linear - log (logarithm) - sqrt (square root) - exponential (squared) which is mapped in a switch in chart.setScale(scale)
-*****  callback: controller.scaleCallback function passed through $trigger.data(“scaleCallback”)
-**** setcolor: view.keyItems.getColorItems() passed through $trigger.data("colorItems")
-** X-Axis label menu: Covers x-axis mappings only
-** Y-Axis label menu: Covers y-axis mappings only
-** Interactive Menu menu: Covers mappings, scales and colormaps separately
+## Methods
 
-*saveAsImage
+  Option                                                                               | Role        | Description
+---------------------------------------------------------------------------------------|-------------|-------------
+ motionchart(options)                                                                  | Constructor | Accepts optional configuration object. See **Options**.
+ motionchart('title',myTitle)														   | Method		 | Updates the title.
+ motionchart('data',myData)															   | Method		 | Loads new data into data table and updates the chart components accordingly.
+ motionchart('destroy')																   | Method		 | Destructs the motion chart instance, recommended to free up memory.
+ 
+## Options
 
-###Controller###
-####Overview####
-The controller handles all the user interactions within a Motion Chart instance. This includes buttons and menus.
+The table below presents configuration options that are interpreted by `motionchart()` constructor:
 
-####Components####
-* buttons
-** $tabs (Chart/Data)
-*** When clicked toggles $chart and $table
-*** When going to chart updateData() and setMappings() are called to rebind data and reset mappings
-** $play
-*** if $play has class ‘pause’
-**** Stop ongoing animation (playState interval
-**** hide tooltip after 1000 ms
-*** if mainSlider handler is at the end
-**** Display the tooltip for 1000 ms and do nothing
-*** Otherwise (play the animation)
-**** Add class ‘pause’
-**** Display tooltip
-**** increment mainSlider’s value (which causes chart to animate to the next key)
-**** set playState interval (repeats every speedSlider value)
-***** Display tooltip
-***** Increment mainSlider’s value (which causes chart to animate to the next key) 
-***** if mainSlider handler is at the end then trigger a click to emulate pause and stop the animation (playState interval)
-** $about
-*** When clicked goto SOCR wikipage
-** .backward-skip
-*** when clicked decrements mainSlider’s value (which causes chart to animate to the previous key)
-*** when double clicked changes mainSlider’s value to it’s minimum (which causes the chart to animate to the first key)
-** .forward-skip
-*** when clicked increments mainSlider’s value (which causes chart to animate to the next key)
-*** when double clicked changes mainSlider’s value to it’s maximum (which causes the chart to animate to the last key)
+  Option                 | Type                           | Default												 		   | Description
+-------------------------|--------------------------------|----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------
+ `title`                 | String                         | SOCR HTML5 Motion Chart         						       | Defines the initial title
+ `data`                  | Object                         | see **Data**    											   | Initial data loaded in the chart and data table
+ `minWidth`				 | Number						  | 700															   | Minimum width in pixels the users can shrink the instance to. **Note:** A value too small could cause the instance to lose it's structure.
+ `minHeight`			 | Number						  | 300															   | Minimum height in pixels the users can shrink the instance to. **Note:** A value too small could cause the instance to lose it's structure.
+ `speed`				 | Number						  | 3000														   | Initial speed of the speed slider. **Note:** Value must be between 1000 and 6000.
+ `colorPalette`			 | Object						  | see **colorPalette**										   | Defines the color palette for the user to choose from.
+ `color`				 | String						  | Red-Blue													   | Defines the circles' initial color gradient. **Note:** The value has to be from the set of keys in colorPalette.
+ `mappings`				 | Object						  | {key:0, x:1, y:2, size:3, color:4, category:0}				   | Defines the mapping from chart component to data column. See **Mappings and Scalings**.
+ `scalings`				 | Object						  | {x:"linear", y:"linear", size:"linear", color:"linear"}		   | Defines the initial scaling settings for the chart components. See **Mappings and Scalings**.
 
-* contextMenu
-** Custom triggers are created here to control the menus per motionchart instance
-** $svg
-** 
+### Data
 
-* menu
+The Data passed can be any table/spreadsheet formatted as a nested array. The data is inserted in the data table and reflected in the chart.
 
-###Chart###
-####Overview####
-The chart object handles everything related to d3/SVG. This includes the axes, bubbles, text, mappings, scalings and so on.
+The data should have the following structure.
 
-####Components####
+```
+[
+	[ColumnName1, ColumnName2, ... , ColumnNameN],
+	[Row1Value1, Row1Value2, ... , Row1ValueN],
+	[Row2Value1, Row2Value2, ... , Row2ValueN],
+	...										,
+	[RowNValue1, RowNValue2, ... , RowNValueN]
+]
+```
 
-* init: Initialises chart components
-** Creates SVG to span container
-** Create x and y axes bar and text
-* resize:
-** Called when container is being resized
-** Get new dimentions and update the SVG
-** Update the x and y axes and scales maintaining any ordinal values (which uses rangePoints as opposed to range)
-** Update the x axis label position
-** Finally remap the circles to the axes. Note that this is done directly rather than calling chart.update to ensure swift movement as resize is called frequently during resizing.
-* updateData:
-** Extracts data from handsontable using the custom (not included in the default library) function ‘getNonEmptyData’. Important note: getNonEmptyData returns the data from row 0, column 0 to the last row/column with data in them (on the row:0 column:0 axes). This function can be refined to identify a complete matrix even if pasted in the middle of the table.
-** Parses data (nest array) into CSV
-** nests data by key. In other words transforms the CSV into an associative array with (mapping) keys being its (associative) keys.
-** Creates NaNMap based on the first row of values
-* update: 
-** If parameter keyIndex is passed then bind data for that particular index to nodes
-** Enter: Create and map nodes for data that aren’t mapped
-** update: Transition, with duration value of the speed slider, the nodes linearly move to their new respective x and y position while the circles (within the nodes) transition to their new radius and color.
-** exit: Remove any nodes that are not mapped to data. Let radius go to 0 before removing for a nice visual effect
-** Select all svg:text from nodes and update their text. Note only nodes that have been clicked on will have svg:text elements in them.
-** Call popover on all circles, explained in a different point.
-** Add click event to circles
-*** When a node is clicked and selected append a svg:text element with category
-*** if node is already selected then deselect and remove svg:text element.
-*** Note the svg:text is being transitioned along with the node and, maintaining its position in the centre of the circle.
-* setPopover 
-** initialise a bootstrap popover for every circle with relevant data
-*** placement: Where the popover will appear. Right if node is less than ¾ the chart width and left otherwise.
-*** title: Category if defined or “Data” otherwise.
-*** content: display the data bind to the node (accessed through node.datum() )
-* updateMapping:
-** Updates individual mapping
-** switch (keyID)
-*** MapEnum.key
-* updateScale
-* updateColorRange
-* isNaNMap
+The default option, taken from [Warpech's handsontable](https://github.com/warpech/jquery-handsontable), is
 
-###Design Decisions###
+```
+[
+	["Year", "Kia", "Nissan", "Toyota", "Honda"],
+	["2008", 10, 11, 12, 13],
+	["2009", 20, 11, 14, 13],
+	["2010", 30, 15, 12, 13]
+]
+```
 
+### Color and ColorPalette
 
+Color Palette is an extensible Object that pre-defines color gradients from which the user can choose.
+The color gradients are used as scale to represent the difference/similarity between circles' values.
+Color is simply a key name for one of the values in colorPalette.
 
-###Options###
+The colorPalette object's format is as follows
 
-###Methods###
+```
+{ 
+	Color1Name: { from: "rgb(R,G,B)", to: "rgb(R,G,B)" },
+	Color2Name: { from: "rgb(R,G,B)", to: "rgb(R,G,B)" },
+	...													,
+	ColorNName: { from: "rgb(R,G,B)", to: "rgb(R,G,B)" }
+}
+```
+Where R,G,B are numbers from 0-255 representing the intensity of Red, Green, Blue respectively.
 
-###Known Issues / TODO###
-* Draw smaller circles on top of larger ones
-* Save data associated with selected circle
-** Open new window
-** Create handsontable
-** Get data associated with circle
-** Export data into handsontable
-* Add set circle size in right click menu (commented out).
-* Load CSV/Excel file directly to handsontable and into chart.
-* parse dates in addition to string/number
+The default option is
 
-###Conclusion###
+```
+{
+	"Red-Blue": {
+		from: "rgb(255,0,0)",
+		to: "rgb(0,0,255)"
+	},
+	"Green-Yellow": {
+		from: "rgb(0,255,0)",
+		to: "rgb(0,255,255)"
+	}
+}
+```
+**Note:** The list of default options may be expanded in future revisions.
+**Note:** When passing a colorPalette it is extended (added to) to the existing default option. This might be changed in future revisions.
 
+Color is simply a value from the range of values `Color1Name, Color2Name, ... ,ColorNName`.
+
+The default option is `"Red-Blue"`
+
+## Mappings and Scalings
+
+Mappings and Scalings are two objects that map chart components to data columns (via column numbers).
+
+Mappings defines which column the `key`, `x`, `y`, `size`, `color`, `category` should represent.
+
+Chart Dimensions:
+* `key`: Defines what the chart should transition upon.
+* `x`: Defines the x-axis data mapping.
+* `y`: Defines the y-axis data mapping.
+* `size`: Defines the size of the circles' data mapping.
+* `color`: Defines the color of the circles' data mapping.
+* `color`: Defines the name of the circles' data mapping.
+
+Scaling Types:
+* `linear`: Defines a linear scale `x->y`.
+* `sqrt`: Defines a square root scale `x->y^(1/2)`.
+* `log`: Defines a logarithmic scale `x->log(y)`.
+* `exponential`: Defines a polynomial scale `x->y^2`. **Note:** To be changed to 'poly' in future revisions.
+
+Mappings object should be in the following format `{key:N, x:N, y:N, size:N, color:N, category:N}`
+Where N is a number from 0 to (the number of columns - 1) and all components are optional.
+
+Mappings default option is
+
+```
+{
+	key: 0,
+	x: 1,
+	y: 2,
+	size: 3,
+	color: 4,
+	category: 0
+}
+```
+Given that the default data column length is 5.
+
+**Note:** There is an internal check on the maximum data column length where a number larger would be capped to data column length - 1.
+
+Scalings object should be in the following format `{x:SCALE_TYPE, y:SCALE_TYPE, size:SCALE_TYPE, color:SCALE_TYPE}`.
+Where SCALE_TYPE is a string with one of the scaling type values noted above and all components are optional.
+
+Scalings default option is
+
+```
+{
+	x: "linear",
+	y: "linear",
+	size: "linear",
+	color: "linear"
+}
+```
+**Note:** Scalings is currently case sensitive. This might be changed in future revisions.
+
+## License 
+
+Copyright (c) 2012 Ramy Elkest &lt;ramyelkest@gmail.com&gt;
+
+**The MIT License**
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+**The LGPL License***
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
