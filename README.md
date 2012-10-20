@@ -293,7 +293,7 @@ Scalings default option is
 ## Possible Todos
 
 * Performance optimisation / Code refactoring
-* Integrate (nvd3 jQuery plugin)[https://github.com/novus/nvd3]
+* Integrate [nvd3 jQuery plugin](https://github.com/novus/nvd3)
 * Attempt to reproduce animation by Tweening instead of rebinding data
 
 ## Authors
