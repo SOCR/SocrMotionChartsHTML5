@@ -105,23 +105,17 @@ First, include all the dependencies:
 
 ```javascript
 <!--StyleSheets-->
-<link href="MotionChartCss.css" rel="stylesheet">
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="jquery-handsontable/jquery.handsontable.css" rel="stylesheet">
-<link href="jquery-ui-1.8.20/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet">
-<link href="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">  
+<link href="css/jquery-ui-1.8.20.custom.css" rel="stylesheet"> 
+<link href="css/jquery.handsontable.css" rel="stylesheet">
+<link href="css/jquery.motionchart.css" rel="stylesheet">
+<link href="css/jquery.contextMenu.css" rel="stylesheet">
 <!--Scripts-->
-<script src="jquery-ui-1.8.20/js/jquery-1.7.2.min.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
-<script src="jquery-ui-1.8.20/js/jquery-ui-1.8.20.custom.min.js"></script>
-<script src="jquery-handsontable/jquery.handsontable.js"></script>
-<script src="jquery-handsontable/lib/jquery.autoresize.js"></script>
-<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.ui.position.js"></script>
-<script src="jquery-handsontable/lib/jQuery-contextMenu/jquery.contextMenu.js"></script>
-<script src="d3/d3.v2.js"></script> 
-<script src="canvg/rgbcolor.js"></script> 
-<script src="canvg/canvg.js"></script> 
-<script src="jquery.motionchart.js"></script>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/dependencies.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery.handsontable.js"></script>
+<script src="js/jquery.motionchart.js"></script>
 ```
 
 Run `motionchart()` on an empty div to initialise a motionchart with default settings.
