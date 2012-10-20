@@ -2,9 +2,104 @@
 
 Motion Chart is a jQuery plugin designed to render dynamic bubble charts and allows efficient and interactive exploration and visualization of longitudinal multivariate Data.
 
+Motion Chart is supported by `IE9|Chrome|Safari|Firefox`
+
 You can see a live example on http://socr.ucla.edu/htmls/HTML5/MotionChart/ or fork an example on [JSFiddle--Todo](http://jsfiddle.net/).
 
-## How-To
+## Using Motion Chart
+
+Motion Chart has two main views `chart` and `data` which can toggled using the radio buttons on the top left.
+
+### Chart
+
+The Chart view can be divided into three main components: the SVG Chart; the Control buttons; the main menu.
+
+#### SVG Chart
+
+The SVG Chart contains axes, data blobs and context-menu.
+
+##### Blobs
+
+Each blob represents a record in the current keyframe (eg. time frame) which can be changing by changing the `key` mapping.
+
+To view the data associated with a blob simply hover over it for a popover.
+To select certain blobs to track simply click on the blobs and the category will appear.
+**Note:** if the category field is undefined "Data" will appear instead.
+
+##### Axes
+
+The X-Axis is horizontally on the bottom and its mapping can be altered by clicking on the associated label.
+
+The Y-Axis is vertically on the left and its mapping can be altered by click on the associated label.
+
+##### Context Menu
+
+The context menu is an alternative to the main sliding menu.
+To summon the context menu right click within the SVG Chart.
+
+Each dimention contains a `Map` option and relative dimentions contain a `Scale` option which work the same way as in **Main Menu**.
+
+One additional option in the context menu is to export the SVG as an Image, this can be achieved by choosing 'Save as Image'.
+This will open a new window/tab which contains an image with the same size as the SVG, which can be saved by right-clicking and `Save image as..`.
+
+**Note:** if you're browser does not support HTML5 canvas this option will be disabled.
+
+#### Control Buttons
+
+Control buttons are used to navigate through the data using the specified key (i.e. time)
+
+##### Play/Pause
+
+The Play/Pause button simply navigates sequentially through the data at the speed provided by the speed control.
+
+After clicking pause the chart animation stops at the next key.
+
+The chart must be rewinded after it has reached the end.
+
+**TODO:** If `loop: true` is passed in the configuration object the chart will automatically loop once it reaches the end.
+
+##### Speed Control
+
+Speed Control defines the speed at which the chart transtions, i.e. the speed of the animation.
+
+The value represents the time between 1 key transition.
+
+The lower the values, the faster the animation. And vice-versa.
+
+##### Key Slider (timeline)
+
+The timeline is used to navigate to any arbitrary key with ease.
+
+##### Skip Control
+
+The skip buttons' single click controls a single step on the timeline (whether forwards or backwards).
+A double click controls the rewinding or fastforwarding of the timeline and chart.
+
+#### Main Menu
+
+The main menu is where the mappings and scalings can be changed.
+
+  				| Key		    | X-Axis			| Y-Axis			| Size				| Color				| Category
+----------------|---------------|-------------------|-------------------|-------------------|-------------------|----------------
+ mapping		| `Column Name`	| `Column Name`		| `Column Name`		| `Column Name`		| `Column Name`		|  `Column Name`
+ scaling		| 				| `Scale Type`		| `Scale Type`		| `Scale Type`		| `Scale Type`		|					
+ color map		|				| 					|					|					| `color`			|
+
+**Note:**
+* `Column Name` is a column header in the data
+* `Scale Type` see [Mappings and Scalings](#mappings-and-scalings)
+* `color` see [Color and ColorPalette](#color-and-colorpalette)
+ 
+### Data
+
+The data view consists only of an editible excel-like spreadsheet that holds the data being visualised. 
+Within the spreadsheet you may cut/copy/paste/delete as you would with a normal spreadsheet.
+You may also right click view options to insert/remove rows/columns.
+
+<div style="background-color="red">Please note that the graph is updated automatically as the spreadsheet is edited which may slow for large amounts of data.
+It is recommended to edit tables (for major edits) outside the application</div>
+
+## Calling Motion Chart
 
 First, include all the dependencies:
 
@@ -50,7 +145,7 @@ MotionChart-v3.1 - First official public release.
 
   Option                                                                               | Role        | Description
 ---------------------------------------------------------------------------------------|-------------|-------------
- motionchart(options)                                                                  | Constructor | Accepts optional configuration object. See **Options**.
+ motionchart(options)                                                                  | Constructor | Accepts optional configuration object. See [Options](#options).
  motionchart('title',myTitle)														   | Method		 | Updates the title.
  motionchart('data',myData)															   | Method		 | Loads new data into data table and updates the chart components accordingly.
  motionchart('destroy')																   | Method		 | Destructs the motion chart instance, recommended to free up memory.
@@ -62,14 +157,14 @@ The table below presents configuration options that are interpreted by `motionch
   Option                 | Type                           | Default												 		   | Description
 -------------------------|--------------------------------|----------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------
  `title`                 | String                         | SOCR HTML5 Motion Chart         						       | Defines the initial title
- `data`                  | Object                         | see **Data**    											   | Initial data loaded in the chart and data table
+ `data`                  | Object                         | see [Data](#data)  											   | Initial data loaded in the chart and data table
  `minWidth`				 | Number						  | 700															   | Minimum width in pixels the users can shrink the instance to. **Note:** A value too small could cause the instance to lose it's structure.
  `minHeight`			 | Number						  | 300															   | Minimum height in pixels the users can shrink the instance to. **Note:** A value too small could cause the instance to lose it's structure.
  `speed`				 | Number						  | 3000														   | Initial speed of the speed slider. **Note:** Value must be between 1000 and 6000.
- `colorPalette`			 | Object						  | see **colorPalette**										   | Defines the color palette for the user to choose from.
+ `colorPalette`			 | Object						  | see [colorPalette](#colorpalette)							   | Defines the color palette for the user to choose from.
  `color`				 | String						  | Red-Blue													   | Defines the circles' initial color gradient. **Note:** The value has to be from the set of keys in colorPalette.
- `mappings`				 | Object						  | {key:0, x:1, y:2, size:3, color:4, category:0}				   | Defines the mapping from chart component to data column. See **Mappings and Scalings**.
- `scalings`				 | Object						  | {x:"linear", y:"linear", size:"linear", color:"linear"}		   | Defines the initial scaling settings for the chart components. See **Mappings and Scalings**.
+ `mappings`				 | Object						  | {key:0, x:1, y:2, size:3, color:4, category:0}				   | Defines the mapping from chart component to data column. See [Mappings and Scalings](#mappings-and-scalings).
+ `scalings`				 | Object						  | {x:"linear", y:"linear", size:"linear", color:"linear"}		   | Defines the initial scaling settings for the chart components. See [Mappings and Scalings](#mappings-and-scalings).
 
 ### Data
 
@@ -158,7 +253,8 @@ Scaling Types:
 * `linear`: Defines a linear scale `x->y`.
 * `sqrt`: Defines a square root scale `x->y^(1/2)`.
 * `log`: Defines a logarithmic scale `x->log(y)`.
-* `exponential`: Defines a polynomial scale `x->y^2`. **Note:** To be changed to 'poly' in future revisions.
+* `quadnomial`: Defines a quadnomial scale `x->y^2`.
+* `ordinal`: Defines an ordinal scale `x(i)->i`.
 
 Mappings object should be in the following format `{key:N, x:N, y:N, size:N, color:N, category:N}`
 Where `N` is a number from 0 to (the number of columns - 1) and all components are optional.
@@ -194,10 +290,21 @@ Scalings default option is
 ```
 **Note:** Scalings is currently case sensitive. This might be changed in future revisions.
 
+## Possible Todos
+
+* Performance optimisation / Code refactoring
+* Integrate (nvd3 jQuery plugin)[https://github.com/novus/nvd3]
+* Attempt to reproduce animation by Tweening instead of rebinding data
+
 ## Authors
 
 **Ramy Elkest**
 * ramyelkest@gmail.com
+
+## Supervisors
+
+**Ivo Dinov**
+
 
 ## Copyright and License 
 
@@ -215,3 +322,4 @@ SOCR resources are distributed in the hope that they will be useful, but without
 any warranty; without any explicit, implicit or implied warranty for merchantability or
 fitness for a particular purpose. See the GNU Lesser General Public License for
 more details see http://opensource.org/licenses/lgpl-license.php.
+
