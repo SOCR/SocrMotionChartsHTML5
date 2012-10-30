@@ -159,6 +159,8 @@ The table below presents configuration options that are interpreted by `motionch
  `color`				 | String						  | Red-Blue													   | Defines the circles' initial color gradient. **Note:** The value has to be from the set of keys in colorPalette.
  `mappings`				 | Object						  | {key:0, x:1, y:2, size:3, color:4, category:0}				   | Defines the mapping from chart component to data column. See [Mappings and Scalings](#mappings-and-scalings).
  `scalings`				 | Object						  | {x:"linear", y:"linear", size:"linear", color:"linear"}		   | Defines the initial scaling settings for the chart components. See [Mappings and Scalings](#mappings-and-scalings).
+ `play`					 | Boolean						  | false														   | If true, the animation start when the app is loaded, otherwise the animation has to be started manually.
+ `loop`					 | Boolean						  | false														   | If true, the animation will loop forever, otherwise the animation will stop at the end of the timeline.
 
 ### Data
 
@@ -298,6 +300,7 @@ Scalings default option is
 ## Supervisors
 
 **Ivo Dinov**
+* http://www.stat.ucla.edu/~dinov
 
 
 ## Copyright and License 
