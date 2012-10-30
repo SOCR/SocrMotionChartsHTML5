@@ -1,0 +1,264 @@
+SOCR  Motion Chart HTML5 Documentation
+
+===Introduction===
+Motion Chart HTML5 Documentation is a detailed
+documentation of [[SOCR]]'s Motion Chart jQuery plugin.
+
+===Overview===
+The jQuery plugin was designed with a [[Model–view–controller]]
+structure in mind. It is not strictly enforced due to jQuery's plugins’
+callback nature. Nevertheless it helps organise different aspects of the
+plugin. The core components of Motion Chart are Priv, View, Controller and
+Chart. Additionally there’s a settings object and motionchart function.
+
+===Priv===
+Contains Motion Chart’s private variables
+
+* settings: Inherits options from object settings or (if specified) user options
+* dom: jQuery objects
+* playing: flag to indicate if the chart is in motion
+* ie9: flag to indicate if browser used is internet explorer
+* menuHeight: height of the menu (global for consistancy issues)
+
+===View===
+The view object constructs and maintains Motion
+Chart’s DOM. This includes constructing sliders, tables, tooltips, menus and
+resizing components.
+
+* Build: Constructs the DOM skeleton for the motionchart instance and stores teh jquery references in priv.dom to minimize DOM lookups.
+
+* Sliders: Creates two sliders:
+** Documentation available on http://jqueryui.com/demos/slider/
+** mainSlider (used to control the chart)
+*** min: always set to 0
+*** max: initialized to 1, set to the maximum key length during axis key change
+*** step: always set to 1
+*** animate: initialized to priv.settings.speed, updated when speedSlider is changed
+*** change: when the slider is altered chart.update is called with the slider’s value as the parameter. Meaning the slider triggers the chart to update to a new key
+** speedSlider (used to control the motion speed)
+*** min: initialized to priv.settings.minSpeed, defaulted at 1000
+*** max: initialized to priv.settings.maxSpeed, defaulted at 6000
+*** step: always set to 500
+*** orientation: vertical
+*** slide: everytime the slider is triggered to slide, show tooltip (which contains the speed value) Might be removed
+*** change: when the slider is altered update chart’s duration and mainSlider’s animation speed
+
+* table: Constructs a handsontable instance in priv.dom.$table
+** rows: 10, initial number of rows
+** cols: 10, initial number of columns
+** minSpareRows: 1, minimum number of empty rows to maintain at the end
+** min SpareCols: 1, minimum number of empty columns to maintain at the end
+** contextMenu: true, allow right click options
+** onChange: on table change update chart data and reset mappings
+
+* tooltips
+** mainSlider handler: displays slider value
+** play/pause button: displays info.
+** backward button: displays info.
+** forward button: displays info.
+* initWindow
+** If container is smaller than priv.settings.minWidth/minHeight, resizes container to priv.settings.minWidth/minHeight respectively.
+** Resizes dom components from the top ($content) down ($play)
+
+* resize: Applies resizable plugin to $svg
+** minHeight: priv.settings.minHeight, minimum $svg height
+** minWidth: priv.settings.minWidth, minimum $svg width
+** handles: se, place a handle only on the south east (bottom right) corner
+** resize: when resized
+*** resizes the dom from the bottom ($svg) up (container)
+*** calls chart.resize() to resize the SVG element including axes and nodes’ positioning
+
+* Context Menu: initializes all Context menus
+** $svg context menu: Covers all mappings, scales, colormaps and Save As Image
+*** selector: .svg, bind context menu to .svg
+*** trigger: none, we will create a custom trigger (right-click) in controller.contextmenu to bind the trigger to specific motionchart instances
+*** build: returns object containing list of menu elements and callbacks
+*** items:
+****map: view.keyItems.getMapItems() passed through $trigger.data(“items”)
+****scale :
+***** items: linear - log (logarithm) - sqrt (square root) - exponential (squared) which is mapped in a switch in chart.setScale(scale)
+*****  callback: controller.scaleCallback function passed through $trigger.data(“scaleCallback”)
+**** setcolor: view.keyItems.getColorItems() passed through $trigger.data("colorItems")
+** X-Axis label menu: Covers x-axis mappings only
+** Y-Axis label menu: Covers y-axis mappings only
+** Interactive Menu menu: Covers mappings, scales and colormaps separately
+
+===Controller===
+The controller handles all the user interactions
+within a Motion Chart instance. This includes buttons and menus.
+
+* buttons
+** $tabs (Chart/Data)
+*** When clicked toggles $chart and $table
+*** When going to chart updateData() and setMappings() are called to rebind data and reset mappings
+** $play
+*** if $play has class ‘pause’
+**** Stop ongoing animation (playState interval
+**** hide tooltip after 1000 ms
+*** if mainSlider handler is at the end
+**** Display the tooltip for 1000 ms and do nothing
+*** Otherwise (play the animation)
+**** Add class ‘pause’
+**** Display tooltip
+**** increment mainSlider’s value (which causes chart to animate to the next key)
+**** set playState interval (repeats every speedSlider value)
+***** Display tooltip
+***** Increment mainSlider’s value (which causes chart to animate to the next key)
+***** if mainSlider handler is at the end then trigger a click to emulate pause and stop the animation (playState interval)
+** $about
+*** When clicked goto SOCR wikipage
+** .backward-skip
+*** when clicked decrements mainSlider’s value (which causes chart to animate to the previous key)
+*** when double clicked changes mainSlider’s value to it’s minimum (which causes the chart to animate to the first key)
+** .forward-skip
+*** when clicked increments mainSlider’s value (which causes chart to animate to the next key)
+*** when double clicked changes mainSlider’s value to it’s maximum (which causes the chart to animate to the last key)
+
+* contextMenu
+** Custom triggers are created here to control the menus per motionchart instance
+*** scaleCallback
+****  Takes a key (attached to context menu clicked), options (ignored) and mapID (maps to MapEnum) as parameters
+**** If mapID is passed call pass it to setScale
+**** Otherwise pass the button index. Therefore it is vital that the order match MapEnum and must be at the top of the context menu
+*** $svg:rightclick
+**** Attach mapping and color items to the element data as "items" and "colorItems" respectively
+**** Attach scale callback function and save callback function to the element data as "scaleCallback" and "saveCallback" respectively
+**** Display the menu manually at mouse pointer
+*** $svg:x.label
+*** $svg:y.label
+*** $menu:[key|x|y|size|color|category]Map
+*** $menu:[x|y|size|color]Scale
+*** $menu:colorColorMap
+**** Attach relevant mapping items to the element data as "items"
+**** Trigger context menu
+
+* maps
+
+* keyItems
+
+* menu
+** Initialises main interactive sliding menu event handlers
+*** if menu is clicked trigger 'mouseenter' (open menu if closed)
+*** if click is outside menu trigger 'mouseleave' (close menu is open)
+*** On mouseenter create and populate table and append it to the menu
+**** Note: All variables are substringed based on max width of the app
+**** Animate (open) the menu to display the table
+***** Stops any animation in progress
+***** Note: priv.menuHeight can be refactored
+*** On mouseleave animate (close) menu back to default (CSS) settings	
+
+* saveAsImage
+** Save as image uses canvg to transform the SVG into a PNG image
+*** Applies CSS properties inline in order to be captured by canvg
+*** Call canvg with a temporary created canvas
+*** Edit canvas to add title, mapping and scaling information
+*** Transform canvas to PNG image data
+*** Open a new window. Window title must not contain space in order to work with internet explorer.
+*** Write the image data to the page
+*** Remove the inline styles and update chart to restore custom colors
+
+===Chart===
+The chart object handles everything related to
+d3/SVG. This includes the axes, bubbles, text, mappings, scalings and so on.
+
+* init: initializes chart components
+** Creates SVG to span container
+** Create x and y axes bar and text
+* resize:
+** Called when container is being resized
+** Get new dimentions and update the SVG
+** Update the x and y axes and scales maintaining any ordinal values (which uses rangePoints as opposed to range)
+** Update the x axis label position
+** Finally remap the circles to the axes. Note that this is done directly rather than calling chart.update to ensure swift movement as resize is called frequently during resizing.
+* updateData:
+** Extracts data from handsontable using the custom (not included in the default library) function ‘getNonEmptyData’. Important note: getNonEmptyData returns the data from row 0, column 0 to the last row/column with data in them (on the row:0 column:0 axes). This function can be refined to identify a complete matrix even if pasted in the middle of the table.
+** Parses data (nest array) into CSV
+** nests data by key. In other words transforms the CSV into an associative array with (mapping) keys being its (associative) keys.
+** Creates NaNMap based on the first row of values
+* update:
+** If parameter keyIndex is passed then bind data for that particular index to nodes
+** Enter: Create and map nodes for data that aren’t mapped
+** update: Transition, with duration value of the speed slider, the nodes linearly move to their new respective x and y position while the circles (within the nodes) transition to their new radius and color.
+** exit: Remove any nodes that are not mapped to data. Let radius go to 0 before removing for a nice visual effect
+** Select all svg:text from nodes and update their text. Note only nodes that have been clicked on will have svg:text elements in them.
+** Call popover on all circles, explained in a different point.
+** Add click event to circles
+*** When a node is clicked and selected append a svg:text element with category
+*** if node is already selected then deselect and remove svg:text element.
+*** Note the svg:text is being transitioned along with the node and, maintaining its position in the centre of the circle.
+* setPopover
+** initialize a bootstrap popover for every circle with relevant data
+*** placement: Where the popover will appear. Right if node is less than ¾ the chart width and left otherwise.
+*** title: Category if defined or “Data” otherwise.
+*** content: display the data bind to the node.
+* updateMapping:
+** Updates individual mappings
+** Takes a key ID (which maps to MapEnum) as a paramater
+** switch (keyID)
+** MapEnum.key
+*** Creates a new nest for the given key from the CSV
+*** Updates chart (returns to initial)
+*** Updates the main slider's maximum and resets to initial
+** MapEnum.x
+*** Updates the x scale
+*** if ordinal, push the values into an array and use as the domain (This is because ordinal scales take arrays as domain)
+*** Apply the new scale to the x axis and reset tick formatting (Since Log scaling uses a custom different format)
+*** Update x-axis Label
+*** Move blobs to their new respective potitions on the x-axis
+** MapEnum.y
+*** Updates the y scale
+*** if ordinal, push the values into an array and use as the domain (This is because ordinal scales take arrays as domain)
+*** Apply the new scale to the y axis and reset tick formatting (Since Log scaling uses a custom different format)
+*** Update y-axis Label
+*** Move blobs to their new respective potitions on the y-axis
+** MapEnum.size
+*** Updates the radius scale
+*** if ordinal, push the values into an array and use as the domain (This is because ordinal scales take arrays as domain)
+*** Resize blobs to their new respective radius
+** MapEnum.color
+*** Update the color scale
+*** If ordinal, use d3's 20 color ordinal mapping, otherwise use a gradient defined by the colorPalette and color
+*** Recolor the blobs to their new respective colors
+** MapEnum.category
+*** Update all (if any) SVG:text attached to the nodes (blobs)
+* updateScale
+** Updates individual dimensions' scaling type
+** Takes a key ID (which maps to MapEnum) and scale ("linear","log","sqrt","polynomial") as a paramater
+** switch(keyID, toScale)
+** MapEnum.x
+** MapEnum.y
+*** if Log apply a tickformatting see [https://github.com/mbostock/d3/wiki/Quantitative-Scales#wiki-log_tickFormat|log tick formatting]
+** MapEnum.size
+** MapEnum.color
+*** update xScale with the new scale type
+*** Apply the scale to the xAxis
+* updateColorRange
+** Updates the chart's color gradient
+** Takes 2 parameters from and to in the format rgb(0-255,0-255,0-255)
+*** Updates the colorScale and then refreshes chart.
+* isNaNMap
+** Takes an integer map ID (representing a key in MapEnum)
+** Returns a boolean value
+*** returns true if the first value of the column is NaN (not a number)
+*** returns false otherwise
+
+===Design Decisions===
+* Global variables: Global variables are used extensively to increase performance, this will hopefully be factored out in future revisions while maintaining perfomance.
+* CSV Nesting: The idea to nest and renest on given keys and values of keys (creates a nested object the given key as every key change) was chosen to provide control over the whole timeline, namely move between keys easily and efficiently. This could be replaced with the alternative "Tweening" (which interpolates at every point) in future revisions if it provides a perfomance boost.
+* The timeline/main slider was considered to be the heart of the application, it acts as an API to controlling the chart. There are only a couple places where the chart is manually updated (at initialization and remapping).
+
+===Options, Methods and Usage===
+How to set up the Motionchart, pass options and call methods via javascript directly is documented on https://github.com/RamyElkest/SocrMotionChartsHTML5/blob/gh-pages/README.md
+
+===Known Issues / TODO===
+* Draw smaller circles on top of larger ones
+* Save data associated with selected circle
+** Open new window
+** Create handsontable
+** Get data associated with circle
+** Export data into handsontable
+* Add set circle size in right click menu (commented out).
+* Load CSV/Excel file directly to handsontable and into chart.
+* parse dates in addition to string/number
+* Refactor global variables into priv (and remove any needed)
+
