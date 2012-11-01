@@ -54,9 +54,9 @@ The Play/Pause button simply navigates sequentially through the data at the spee
 
 After clicking pause the chart animation stops at the next key.
 
-The chart must be rewinded after it has reached the end.
+If `play: true` is passed at initialisation, the chart will animate automatically.
 
-**TODO:** If `loop: true` is passed in the configuration object the chart will automatically loop once it reaches the end.
+Unless `loop: true` is passed at initialisation, the chart must be rewinded after it has reached the end.
 
 ##### Speed Control
 
