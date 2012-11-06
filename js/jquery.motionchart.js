@@ -1,5 +1,5 @@
 /**
- * Motion Charts v3.098
+ * Motion Charts v3.1
  *
  * University of California, Los Angeles
  * Statistics Online Computational Resource
