@@ -610,7 +610,7 @@
 						$this.replaceWith('<input class="title edit" value = "'+currentText+'"/>');
 						$parent.children('input').focus()
 												 .blur(function(){
-													var newText = $(this).val();
+													var newText = $(this).val().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); //escape html special chars
 													$(this).replaceWith('<div class="title">'+((newText==='') ? settings.title : newText)+'</div>');
 												});
 					}
