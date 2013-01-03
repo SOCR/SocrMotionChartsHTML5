@@ -606,11 +606,11 @@
 						$parent = $this.parent();
 					
 					if (! $this.hasClass('edit')) {
-						var currentText = $this.text();
+						var currentText = $this.text().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); //escape html special chars
 						$this.replaceWith('<input class="title edit" value = "'+currentText+'"/>');
 						$parent.children('input').focus()
 												 .blur(function(){
-													var newText = $(this).val().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); //escape html special chars
+													var newText = $(this).val().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;"); //escape html special chars TODO: trim to chars to fit div
 													$(this).replaceWith('<div class="title">'+((newText==='') ? settings.title : newText)+'</div>');
 												});
 					}
