@@ -5,14 +5,14 @@ Motion Chart HTML5 Documentation is a detailed
 documentation of [[SOCR]]'s Motion Chart jQuery plugin.
 
 ===Overview===
-The jQuery plugin was designed with a [[Modelñviewñcontroller]]
-structure in mind. It is not strictly enforced due to jQuery's pluginsí
+The jQuery plugin was designed with a [[Model‚Äìview‚Äìcontroller]]
+structure in mind. It is not strictly enforced due to jQuery's plugins‚Äô
 callback nature. Nevertheless it helps organise different aspects of the
 plugin. The core components of Motion Chart are Priv, View, Controller and
-Chart. Additionally thereís a settings object and motionchart function.
+Chart. Additionally there‚Äôs a settings object and motionchart function.
 
 ===Priv===
-Contains Motion Chartís private variables
+Contains Motion Chart‚Äôs private variables
 
 * settings: Inherits options from object settings or (if specified) user options
 * dom: jQuery objects
@@ -22,10 +22,10 @@ Contains Motion Chartís private variables
 
 ===View===
 The view object constructs and maintains Motion
-Chartís DOM. This includes constructing sliders, tables, tooltips, menus and
+Chart‚Äôs DOM. This includes constructing sliders, tables, tooltips, menus and
 resizing components.
 
-* Build: Constructs the DOM skeleton for the motionchart instance and stores teh jquery references in priv.dom to minimize DOM lookups.
+* Build: Constructs the DOM skeleton for the motionchart instance and stores the jquery references in priv.dom to minimize DOM lookups.
 
 * Sliders: Creates two sliders:
 ** Documentation available on http://jqueryui.com/demos/slider/
@@ -34,14 +34,14 @@ resizing components.
 *** max: initialized to 1, set to the maximum key length during axis key change
 *** step: always set to 1
 *** animate: initialized to priv.settings.speed, updated when speedSlider is changed
-*** change: when the slider is altered chart.update is called with the sliderís value as the parameter. Meaning the slider triggers the chart to update to a new key
+*** change: when the slider is altered chart.update is called with the slider‚Äôs value as the parameter. Meaning the slider triggers the chart to update to a new key
 ** speedSlider (used to control the motion speed)
 *** min: initialized to priv.settings.minSpeed, defaulted at 1000
 *** max: initialized to priv.settings.maxSpeed, defaulted at 6000
 *** step: always set to 500
 *** orientation: vertical
 *** slide: everytime the slider is triggered to slide, show tooltip (which contains the speed value) Might be removed
-*** change: when the slider is altered update chartís duration and mainSliderís animation speed
+*** change: when the slider is altered update chart‚Äôs duration and mainSlider‚Äôs animation speed
 
 * table: Constructs a handsontable instance in priv.dom.$table
 ** rows: 10, initial number of rows
@@ -66,7 +66,7 @@ resizing components.
 ** handles: se, place a handle only on the south east (bottom right) corner
 ** resize: when resized
 *** resizes the dom from the bottom ($svg) up (container)
-*** calls chart.resize() to resize the SVG element including axes and nodesí positioning
+*** calls chart.resize() to resize the SVG element including axes and nodes‚Äô positioning
 
 * Context Menu: initializes all Context menus
 ** $svg context menu: Covers all mappings, scales, colormaps and Save As Image
@@ -74,10 +74,10 @@ resizing components.
 *** trigger: none, we will create a custom trigger (right-click) in controller.contextmenu to bind the trigger to specific motionchart instances
 *** build: returns object containing list of menu elements and callbacks
 *** items:
-****map: view.keyItems.getMapItems() passed through $trigger.data(ìitemsî)
+****map: view.keyItems.getMapItems() passed through $trigger.data(‚Äúitems‚Äù)
 ****scale :
 ***** items: linear - log (logarithm) - sqrt (square root) - exponential (squared) which is mapped in a switch in chart.setScale(scale)
-*****  callback: controller.scaleCallback function passed through $trigger.data(ìscaleCallbackî)
+*****  callback: controller.scaleCallback function passed through $trigger.data(‚ÄúscaleCallback‚Äù)
 **** setcolor: view.keyItems.getColorItems() passed through $trigger.data("colorItems")
 ** X-Axis label menu: Covers x-axis mappings only
 ** Y-Axis label menu: Covers y-axis mappings only
@@ -92,27 +92,27 @@ within a Motion Chart instance. This includes buttons and menus.
 *** When clicked toggles $chart and $table
 *** When going to chart updateData() and setMappings() are called to rebind data and reset mappings
 ** $play
-*** if $play has class ëpauseí
+*** if $play has class ‚Äòpause‚Äô
 **** Stop ongoing animation (playState interval
 **** hide tooltip after 1000 ms
 *** if mainSlider handler is at the end
 **** Display the tooltip for 1000 ms and do nothing
 *** Otherwise (play the animation)
-**** Add class ëpauseí
+**** Add class ‚Äòpause‚Äô
 **** Display tooltip
-**** increment mainSliderís value (which causes chart to animate to the next key)
+**** increment mainSlider‚Äôs value (which causes chart to animate to the next key)
 **** set playState interval (repeats every speedSlider value)
 ***** Display tooltip
-***** Increment mainSliderís value (which causes chart to animate to the next key)
+***** Increment mainSlider‚Äôs value (which causes chart to animate to the next key)
 ***** if mainSlider handler is at the end then trigger a click to emulate pause and stop the animation (playState interval)
 ** $about
 *** When clicked goto SOCR wikipage
 ** .backward-skip
-*** when clicked decrements mainSliderís value (which causes chart to animate to the previous key)
-*** when double clicked changes mainSliderís value to itís minimum (which causes the chart to animate to the first key)
+*** when clicked decrements mainSlider‚Äôs value (which causes chart to animate to the previous key)
+*** when double clicked changes mainSlider‚Äôs value to it‚Äôs minimum (which causes the chart to animate to the first key)
 ** .forward-skip
-*** when clicked increments mainSliderís value (which causes chart to animate to the next key)
-*** when double clicked changes mainSliderís value to itís maximum (which causes the chart to animate to the last key)
+*** when clicked increments mainSlider‚Äôs value (which causes chart to animate to the next key)
+*** when double clicked changes mainSlider‚Äôs value to it‚Äôs maximum (which causes the chart to animate to the last key)
 
 * contextMenu
 ** Custom triggers are created here to control the menus per motionchart instance
@@ -171,13 +171,13 @@ d3/SVG. This includes the axes, bubbles, text, mappings, scalings and so on.
 ** Update the x axis label position
 ** Finally remap the circles to the axes. Note that this is done directly rather than calling chart.update to ensure swift movement as resize is called frequently during resizing.
 * updateData:
-** Extracts data from handsontable using the custom (not included in the default library) function ëgetNonEmptyDataí. Important note: getNonEmptyData returns the data from row 0, column 0 to the last row/column with data in them (on the row:0 column:0 axes). This function can be refined to identify a complete matrix even if pasted in the middle of the table.
+** Extracts data from handsontable using the custom (not included in the default library) function ‚ÄògetNonEmptyData‚Äô. Important note: getNonEmptyData returns the data from row 0, column 0 to the last row/column with data in them (on the row:0 column:0 axes). This function can be refined to identify a complete matrix even if pasted in the middle of the table.
 ** Parses data (nest array) into CSV
 ** nests data by key. In other words transforms the CSV into an associative array with (mapping) keys being its (associative) keys.
 ** Creates NaNMap based on the first row of values
 * update:
 ** If parameter keyIndex is passed then bind data for that particular index to nodes
-** Enter: Create and map nodes for data that arenít mapped
+** Enter: Create and map nodes for data that aren‚Äôt mapped
 ** update: Transition, with duration value of the speed slider, the nodes linearly move to their new respective x and y position while the circles (within the nodes) transition to their new radius and color.
 ** exit: Remove any nodes that are not mapped to data. Let radius go to 0 before removing for a nice visual effect
 ** Select all svg:text from nodes and update their text. Note only nodes that have been clicked on will have svg:text elements in them.
@@ -188,8 +188,8 @@ d3/SVG. This includes the axes, bubbles, text, mappings, scalings and so on.
 *** Note the svg:text is being transitioned along with the node and, maintaining its position in the centre of the circle.
 * setPopover
 ** initialize a bootstrap popover for every circle with relevant data
-*** placement: Where the popover will appear. Right if node is less than æ the chart width and left otherwise.
-*** title: Category if defined or ìDataî otherwise.
+*** placement: Where the popover will appear. Right if node is less than ¬æ the chart width and left otherwise.
+*** title: Category if defined or ‚ÄúData‚Äù otherwise.
 *** content: display the data bind to the node.
 * updateMapping:
 ** Updates individual mappings
