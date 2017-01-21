@@ -114,6 +114,9 @@
                     animate: priv.settings.speed,
                     change: function(event, ui) {
                         chart.update(ui.value);
+                    },
+                    slide: function(event, ui) {
+                        chart.update(ui.value);
                     }
                 });
                 priv.dom.$speedSlider.slider({
